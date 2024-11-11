@@ -1,4 +1,4 @@
-# Hessian AI - Rreasearch Hub
+# Hessian AI - Research Hub
 
 ## Jira - Kanbanboard:
 https://kolle-software.atlassian.net/jira/software/projects/HES/boards/3
