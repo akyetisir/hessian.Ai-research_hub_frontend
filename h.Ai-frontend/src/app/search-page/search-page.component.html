@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>search</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Style the header */
+header {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    background-color: none;
+    padding: 40px;
+    padding-top: 10px;
+    text-align: left;
+    font-size: 20px;
+    color: black;
+
+}
+
+
+
+/* Container for flexboxes */
+section {
+  display: -webkit-flex;
+  display: flex;
+  font-family: 'Poppins',sans-serif;
+  font-size: 14px;
+  color: #edecfd;
+}
+
+/* Style the navigation menu */
+nav {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  background: #7a46eb;
+  padding: 20px;
+  font-family: 'Poppins',sans-serif;
+  font-size: 14px;
+  color: #edecfd;
+  
+}
+
+/* Style the list inside the menu */
+nav ul {
+  list-style-type: none;
+  padding: 10px;
+  font-family: 'Poppins',sans-serif;
+  font-size: 14px;
+  color: #edecfd;
+}
+
+/* Style the content */
+article {
+  -webkit-flex: 3;
+  -ms-flex: 3;
+  flex: 3;
+  background-color: #f1f1f1;
+  padding: 10px;
+  font-family: 'Poppins',sans-serif;
+  font-size: 14px;
+  color: black;
+}
+
+
+/* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
+@media (max-width: 600px) {
+  section {
+    -webkit-flex-direction: column;
+    flex-direction: column;
+  }
+}
+</style>
+</head>
+<body>
+
+<app-header></app-header>
+
+<header>
+    <h2>All Research</h2>
+</header>
+<div class="sorting">
+    <span>Sort by:</span>
+    <select [(ngModel)]="sortOption" (change)="sortResults()" class="form-control expanded-select">
+        <option *ngFor="let option of sortOption" [value]="option">{{ option }}</option>
+    </select>
+    
+</div>            
+
+<section>
+
+  <nav>
+    <ul>
+        <li> <section id="search-bar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search research" [(ngModel)]="searchQuery" />
+        </section></li>
+        
+        <li><section id="reset-filters"> 
+            <button class="reset-filters" (click)="resetFilters()">Reset filters</button>
+        </section></li>
+        
+        <br>
+
+        <li><div class="search-bar" *ngFor="let dropdown of dropdown; let i = index"> 
+            <div class="dropdown-container">
+              <!-- Dropdown Heading -->
+               <div class="dropdown-header" (click)="toggleDropdown(i)"> 
+                <!-- Left: Icon and Heading -->
+                 <div class="header-icon">
+                    <i [class]="dropdown.icon"></i>
+                 </div>
+                 <div class="header">            
+                    <h2>{{ dropdown.heading }}</h2>
+                </div>
+                <!-- Right: Dropdown Arrow -->
+                 <span class="dropdown-arrow" [class.expanded]="dropdown.isExpanded">
+                    <i class="fa-solid fa-angle-down"></i> 
+                </span>
+            </div>
+            <!-- Dropdown Content -->
+             <div class="dropdown-content" *ngIf="dropdown.isExpanded">
+                <ul>
+                    <li *ngFor="let item of dropdown.childContents">{{ item }}</li>
+                </ul>
+            </div>
+        </div>    
+    </div></li>
+    </ul>
+  </nav>
+  
+  <article>
+
+    <div class="papers-list">
+        <div *ngFor="let paper of papers">
+          <div class="paper-item">
+            <h3>
+              <a [routerLink]="['/paper', paper.title]" routerLinkActive="router-link-active"> {{ paper.title }} </a>
+            </h3>
+            <p><strong>Category:</strong> {{ paper.category }}</p>
+            <p><strong>Authors:</strong> {{ paper.authors.join(', ') }}</p>
+            <p><strong>Year:</strong> {{ paper.year }}</p>
+            <p><strong>Views:</strong> {{ paper.views }}</p>
+          </div>
+          <hr />
+        </div>
+      </div>
+      
+  
+    <!-- Pagination -->
+    <div class="pagination">
+        <button (click)="previousPage()"> 
+            <i class="fa-solid fa-circle-arrow-left"></i> </button>
+        <span>{{ currentPage }} of {{ totalPages }}</span>
+        <button (click)="nextPage()"> 
+            <i class="fa-solid fa-circle-arrow-right"></i> </button>
+    </div>
+</article>
+</section>
+
+<app-footer></app-footer>
+
+</body>
+</html>
+

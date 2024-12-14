@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>hompage</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<style>
+    @media (max-width: 800px) {
+    .trending {
+      flex-direction: column;
+    }
+  
+    app-wave-logo,
+    app-trend {
+      width: 100%; 
+      padding: 10px 0;
+    }
+  }
+</style>
+
+<body>
+
+  <!-- HOMEPAGE -->
+<div class="hompage"> 
+
+  <!-- Header -->
+  <app-header> </app-header>
+
+  <!-- Introduction -->
+   <app-introduction> </app-introduction>
+       
+  <!-- Category -->
+   <app-category> </app-category>
+
+  <!-- Wave Logo & Trending Blocks -->
+   <div class="trending"> 
+    <!-- Wave Logo -->
+     <app-wave-logo> </app-wave-logo>
+  
+    <!-- Trending Blocks -->
+     <app-trend> </app-trend>
+   </div> 
+
+   <app-footer></app-footer>
+
+  </div> 
+
+</body>
+</html>
+
+
+
+
+
