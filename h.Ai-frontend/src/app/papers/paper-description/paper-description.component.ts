@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { PaperService } from '../../services/paper/paper.service';
-import { Paper } from '../../shared/models/paper.model';
+import { Paper } from '../../shared/models/paper.model'; 
 
 
 
