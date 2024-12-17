@@ -31,6 +31,7 @@ export class PaperService {
     };
   }
 
+  // Get all papers
   getAllPapers(): Observable<Paper[]> {
     return this.http.get<any[]>(this.baseUrl).pipe(
       map(response => response.map(this.mapToPaper))
