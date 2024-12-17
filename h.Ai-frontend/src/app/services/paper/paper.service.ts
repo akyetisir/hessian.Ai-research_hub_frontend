@@ -31,32 +31,38 @@ export class PaperService {
     };
   }
 
+  getAllPapers(): Observable<Paper[]> {
+    return this.http.get<any[]>(this.baseUrl).pipe(
+      map(response => response.map(this.mapToPaper))
+    );
+  }
+
 
 
 
   // Get all papers by author name
-  getPapersByAuthor (authorName: string): Observable<Paper[]> {
+  getPapersViaAuthor (authorName: string): Observable<Paper[]> {
     return this.http.get<any[]>(`${this.baseUrl}/papers/author/${encodeURIComponent(authorName)}`).pipe(
       map(response => response.map(this.mapToPaper))
     );
   }
 
   // Get all papers by tag
-  getPapersByTag (paperTag: string): Observable<Paper[]> {
+  getPapersViaTag (paperTag: string): Observable<Paper[]> {
     return this.http.get<any[]>(`${this.baseUrl}/papers/tag/${encodeURIComponent(paperTag)}`).pipe(
       map(response => response.map(this.mapToPaper))
     );
   }
 
   // Get all papers by title
-  getPapersByTitle (paperTitle: string): Observable<Paper[]> {
+  getPapersViaTitle (paperTitle: string): Observable<Paper | null> {
     return this.http.get<any[]>(`${this.baseUrl}/papers/title/${encodeURIComponent(paperTitle)}`).pipe(
-      map(response => response.map(this.mapToPaper))
+      map(response => response.length > 0 ? this.mapToPaper(response[0]) : null)
     );
   }
 
   // Get all papers by ID
-  getPapersById (id: string): Observable<Paper[]> {
+  getPapersViaId (id: string): Observable<Paper[]> {
     return this.http.get<any[]>(`${this.baseUrl}/papers/id/${encodeURIComponent(id)}`).pipe(
       map(response => response.map(this.mapToPaper))
     );

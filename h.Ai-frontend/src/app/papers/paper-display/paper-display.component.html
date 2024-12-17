@@ -107,8 +107,7 @@ paper-refer {
     <ul>
         <li> <section id="paper-tag">
             <ol>
-                <li><p>Methods and Algorithms</p></li>
-                <li><p>Speech and Natural Language Processing</p></li>
+              <li *ngFor="let tag of paper?.tags"><p>{{ tag }}</p></li>
             </ol>
         </section></li>
         
@@ -130,21 +129,20 @@ paper-refer {
   <article>
     <div>
         <p>Paper</p>
-        <p>Publication date</p>
+        <p>{{ paper?.date}}</p>
     </div>
 
     <header>
         <div class="paper-title">
-            <p>Paper title| For example: Scaling Smart Accelerating Large LanguageModel Pretraining with Small Model Initialization</p>
+          <p>{{ paper?.title }}</p>
         </div>
     </header>
     <div class="paper-author">
-        <p>MohammadSamragh, Imin Mirzadeh, Keivan Alizadeh Vahid, Minsik Cho, Moin Nabi, Devang Naik</p>    
+      <p>{{ paper?.authors?.join(', ') }}</p>  
     </div>
 
     <div class="paper-sumary">
-        <p>This paper was accepted at the Efficient LanguageanNdS
-        <p>The pretraining phase of language models often begins with randomly initialized parameters. With the current trends in scaling models,... [HIER KOMMT DIE ZUSAMMENFASSUNG...]</p>
+      <p>{{ paper?.abstract }}</p>
     </div>
     
 </article>

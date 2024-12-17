@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { PaperService } from '../../services/paper/paper.service';
@@ -16,28 +16,24 @@ import { Paper } from '../../shared/models/paper.model';
 
 
 export class PaperDescriptionComponent implements OnInit {
-  paper: Paper | null = null;
+  @Input() paper: Paper | null = null;
   errorMessage: string = '';
 
   constructor(private route: ActivatedRoute, private paperService: PaperService) {  }
 
   ngOnInit(): void {
     const title = this.route.snapshot.paramMap.get('title');
-  if (title) {
-    this.paperService.getPapersByTitle(title).subscribe({
-      next: (data: Paper[]) => {
-        if (data.length > 0) {
-          this.paper = data[0];  // Get the first paper from the array
-        } else {
-          this.errorMessage = 'No paper found with the given title.';
+    if (title) {
+      this.paperService.getPapersViaTitle(title).subscribe({
+        next: (data: Paper | null) => {
+            this.paper = data;
+        },
+        error: (err) => {
+          this.errorMessage = 'Error fetching paper details!';
+          console.error('Error:', err);
         }
-      },
-      error: (err) => {
-        this.errorMessage = 'Error fetching paper details!';
-        console.error('Error:', err);
-      }
-    });
-  }
+      });
+    }
   }
 
 }

@@ -14,11 +14,11 @@
     <div class="description">
         <div class="container">
             <div **ngIf="paper">
-                <h1>{{ paper.title }}</h1>
-                <p><strong>Authors:</strong> {{ paper.authors.join(', ') }}</p>
-                <p><strong>Relevance Score:</strong> {{ paper.relevance }}</p>
-                <p><strong>Tags:</strong> {{ paper.tags.join(', ') }}</p>
-                <p><strong>Published Date:</strong> {{ paper.date | date }}</p>
+                <h1>{{ paper?.title }}</h1>
+                <p><strong>Authors:</strong> {{ paper?.authors?.join(', ') }}</p>
+                <p><strong>Relevance Score:</strong> {{ paper?.relevance }}</p>
+                <p><strong>Tags:</strong> {{ paper?.tags }}</p>
+                <p><strong>Published Date:</strong> {{ paper?.date| date }}</p>
             </div>    
         </div>
     </div>

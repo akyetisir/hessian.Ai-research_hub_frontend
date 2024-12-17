@@ -10,6 +10,6 @@ export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },  // Automatical Navigation to Home
     { path: 'home', component: HomepageComponent },        // Route for Homepage
     { path: 'search', component: SearchPageComponent },    // Route for Search-page
-    { path: 'paper/:title', component: PaperDisplayComponent },      // Route for Paper Details
+    { path: 'paper/:title', component: PaperDisplayComponent},      // Route for Paper Details
     { path: '**', redirectTo: '/home' }                    // Navigation to Homepage if there is no route
 ];
