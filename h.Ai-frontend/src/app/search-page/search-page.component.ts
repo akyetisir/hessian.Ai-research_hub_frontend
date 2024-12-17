@@ -4,6 +4,8 @@ import { RouterOutlet, RouterModule, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { FooterComponent } from "../shared/footer/footer.component";
+import { PaperService } from '../services/paper/paper.service';
+import { Paper } from '../shared/models/paper.model';
 
 
 @Component({
@@ -106,4 +108,15 @@ toggleDropdown(index: number) {
     sortResults() {
       console.log('Sorting by:', this.sortOption);
     }
+
+
+
+//     // Test if the data is called from backend
+// ngOnInit(): void {
+//   this.paperService.getPapersByAuthor('John Doe').subscribe({
+//     next: (data) => console.log('Papers fetched successfully:', data),
+//     error: (err) => console.error('Error fetching papers:', err)
+//   });
+// }
+
 }
