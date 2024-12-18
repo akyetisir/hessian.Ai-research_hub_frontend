@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>description</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+
+<body>
+
+    <div class="description">
+        <div class="container">
+            <div **ngIf="paper">
+                <h1>{{ paper?.title }}</h1>
+                <p><strong>Authors:</strong> {{ paper?.authors?.join(', ') }}</p>
+                <p><strong>Relevance Score:</strong> {{ paper?.relevance }}</p>
+                <p><strong>Tags:</strong> {{ paper?.tags }}</p>
+                <p><strong>Published Date:</strong> {{ paper?.date| date }}</p>
+            </div>    
+        </div>
+    </div>
+
+</body>
+</html>
+

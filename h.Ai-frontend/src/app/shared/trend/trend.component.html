@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>trend</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <!-- Trending Blocks -->
+  <div class="trend"> 
+
+    <!-- Dropdown Boxes on the right site -->
+    <div class="trend" *ngFor="let dropdown of dropdown; let i = index"> 
+
+      <div class="dropdown-container">
+        
+        <!-- Dropdown Heading -->
+          <div class="dropdown-header" (click)="toggleDropdown(i)"> 
+
+          <!-- Left: Icon and Heading -->
+            <div class="header-icon">
+            <i [class]="dropdown.icon"></i>
+            </div>
+
+            <div class="header">            
+            <h2>{{ dropdown.heading }}</h2>
+          </div>
+          
+          <!-- Right: Dropdown Arrow -->
+            <span class="dropdown-arrow" [class.expanded]="dropdown.isExpanded">
+            <i class="fa-solid fa-angle-down"></i> 
+          </span>
+        </div>
+        
+        <!-- Dropdown Content -->
+          <div class="dropdown-content" *ngIf="dropdown.isExpanded">
+          <app-paper-description></app-paper-description>
+          <app-paper-description></app-paper-description>
+          <app-paper-description></app-paper-description>
+        </div>
+      </div>       
+    </div>
+
+  </div>
+
+</body>
+</html>
+
+
+
+

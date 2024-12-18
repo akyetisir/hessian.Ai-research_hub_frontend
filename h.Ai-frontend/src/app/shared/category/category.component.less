@@ -1,0 +1,65 @@
+
+// Generally style for Category
+.category {
+    // Size
+    width: 100%;
+    height: 60vh;
+    border-collapse: collapse;
+    margin: 20px 0;
+
+    // Display and align
+    align-items: center; 
+
+
+    // Style for the heading
+    h1 {
+        font-size: 30px;
+        font-weight: bold;
+        color: #7a46eb;
+        padding-left: 5%;
+        margin-top: 5%;
+    }
+
+    .category-grid {
+            
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 10px;
+        margin: 0 auto;
+        max-width: 100%;
+
+        padding-left: 5%;
+        padding-right: 5%;
+
+        cursor: pointer;
+    }
+        
+    .category-item {
+        border-radius: 10px;
+        padding: 10px;
+            
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        
+        &:hover {
+              transform: scale(1.05); // Phóng to nhẹ khi hover
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); // Đổ bóng
+        }
+        
+        i {
+            font-size: 14px;                                 
+            color: #7a46eb;  
+            margin-top: 10px;                
+            margin-bottom: 5px;          
+          }
+        
+        p {
+            margin-top: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #7a46eb;
+        }
+    }
+
+
+}

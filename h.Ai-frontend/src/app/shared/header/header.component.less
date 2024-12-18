@@ -1,0 +1,61 @@
+
+// General style for header
+.header {
+    // Display and align
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    
+    // Font and colour
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #7a46eb;
+    transition: color 0.3s;
+
+
+    // Style for logo
+    .logo {
+        height: 50px;
+        width: auto;
+        transform: scale(0.9); // Scale: 90%
+    }
+
+
+    // Style for Navigation bar
+    .navi-bar {
+        ul {
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            gap: 50px; // Space among the components in navigation bar
+
+            li {
+                display: inline;
+
+                a {
+                    text-decoration: none !important;
+                    color: #7a46eb;
+                    cursor: pointer;
+
+                    &:hover {
+                        color: #cdbeea; // Color change by hovering
+
+
+                    }
+                }
+
+            }
+
+        }
+
+    }
+
+}

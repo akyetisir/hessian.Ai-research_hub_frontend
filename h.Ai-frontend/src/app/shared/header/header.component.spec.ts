@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PaperViewComponent } from './paper-view.component';
+import { HeaderComponent } from './header.component';
 
-describe('PaperViewComponent', () => {
-  let component: PaperViewComponent;
-  let fixture: ComponentFixture<PaperViewComponent>;
+describe('HeaderComponent', () => {
+  let component: HeaderComponent;
+  let fixture: ComponentFixture<HeaderComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PaperViewComponent]
+      imports: [HeaderComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PaperViewComponent);
+    fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

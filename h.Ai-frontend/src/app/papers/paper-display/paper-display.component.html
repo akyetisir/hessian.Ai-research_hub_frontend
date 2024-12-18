@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>paper</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Style the header */
+header {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    background-color: none;
+    padding: 40px;
+    padding-top: 10px;
+    text-align: left;
+    font-size: 20px;
+    color: black;
+
+}
+
+
+
+/* Container for flexboxes */
+section {
+  display: -webkit-flex;
+  display: flex;
+  font-family: 'Poppins',sans-serif;
+  font-size: 14px;
+  color: #edecfd;
+}
+
+/* Style the navigation menu */
+nav {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  background: #7a46eb;
+  padding: 20px;
+  font-family: 'Poppins',sans-serif;
+  font-size: 14px;
+  color: #edecfd;
+  
+}
+
+/* Style the list inside the menu */
+nav ul {
+  list-style-type: none;
+  padding: 10px;
+  font-family: 'Poppins',sans-serif;
+  font-size: 14px;
+  color: #edecfd;
+}
+
+/* Style the content */
+article {
+  -webkit-flex: 3;
+  -ms-flex: 3;
+  flex: 3;
+  background-color: #f1f1f1;
+  padding: 10px;
+  font-family: 'Poppins',sans-serif;
+  font-size: 14px;
+  color: black;
+}
+
+paper-refer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center; 
+  width: 100%; 
+  height: auto; 
+  padding: 1rem 0; 
+  box-sizing: border-box; 
+}
+
+
+/* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
+@media (max-width: 600px) {
+  section {
+    -webkit-flex-direction: column;
+    flex-direction: column;
+  }
+}
+</style>
+</head>
+
+
+
+<body>
+<app-header></app-header>
+<header>
+    <h2>Paper display</h2>
+</header>
+          
+<section>
+  <nav>
+    <ul>
+        <li> <section id="paper-tag">
+            <ol>
+              <li *ngFor="let tag of paper?.tags"><p>{{ tag }}</p></li>
+            </ol>
+        </section></li>
+        
+        <li><section id="paper-photo"> 
+            <img src="https://hessian.ai/wp-content/themes/hessianai/apple-touch-icon.png">
+        </section></li>
+        
+        <br>
+
+        <li><div class="paper-tool"> 
+            <p>View publication</p>
+            <p>Open PDF</p>
+            <p>Download PDF</p>
+            </div>
+        </li>
+    </ul>
+  </nav>
+  
+  <article>
+    <div>
+        <p>Paper</p>
+        <p>{{ paper?.date}}</p>
+    </div>
+
+    <header>
+        <div class="paper-title">
+          <p>{{ paper?.title }}</p>
+        </div>
+    </header>
+    <div class="paper-author">
+      <p>{{ paper?.authors?.join(', ') }}</p>  
+    </div>
+
+    <div class="paper-sumary">
+      <p>{{ paper?.abstract }}</p>
+    </div>
+    
+</article>
+</section>
+
+<div class="paper-refer">
+  <h1>Related readings and updates</h1>
+  <div class="refer-box">
+    <div class="reference">
+      <h3>Title 1</h3>
+      <p>Description 1</p>
+      <button type="button">See paper details</button>
+    </div>
+    <div class="reference">
+      <h3>Title 2</h3>
+      <p>Description 2</p>
+      <button type="button">See paper details</button>
+    </div>
+    <div class="reference">
+      <h3>Title 3</h3>
+      <p>Description 3</p>
+      <button type="button">See paper details</button>
+    </div>
+    <div class="reference">
+      <h3>Title 4</h3>
+      <p>Description 4</p>
+      <button type="button">See paper details</button>
+    </div>
+    <div class="reference">
+      <h3>Title 5</h3>
+      <p>Description 5</p>
+      <button type="button">See paper details</button>
+    </div>
+  </div>
+</div>
+
+
+<app-footer></app-footer>
+
+</body>
+</html>
+
