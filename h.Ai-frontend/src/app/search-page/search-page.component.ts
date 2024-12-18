@@ -66,7 +66,7 @@ export class SearchPageComponent implements OnInit {
 
   // Function to fetch papers from the backend
   fetchPapers(): void {
-    this.paperService.getPapersViaAuthor(this.searchQuery).subscribe({
+    this.paperService.getAllPapers().subscribe({
       next: (data: Paper[]) => {
         if (data && data.length > 0) {
           this.papers = data; // Store the fetched papers in the papers array
