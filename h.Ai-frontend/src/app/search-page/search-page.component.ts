@@ -30,6 +30,8 @@ export class SearchPageComponent implements OnInit {
     'Relevance'];
   currentPage = 1;
   totalPages = 68;
+  filters = ['selectedAreas', 'selectedYears', 'views', 'relevantScore' ];
+  filteredPapers: Paper[] = [];
 
   // Drop down section
   // Array to hold dropdown data
@@ -100,9 +102,16 @@ export class SearchPageComponent implements OnInit {
     console.log('Dropdown toggled:', this.dropdown[index].isExpanded);
   }
 
+  applyFilters(): void {
+
+  }
+
+  resetFilters(): void {
+  
+  }
     
   
-  get filteredPapers() {
+  get searchedPapers() {
     return this.papers
       .filter(paper => paper.title.toLowerCase().includes(this.searchQuery.toLowerCase()));
   }
@@ -111,7 +120,7 @@ export class SearchPageComponent implements OnInit {
     this.selectedArea = area.name;
   }
   
-  resetFilters() {
+  resetSearch(): void {
     this.searchQuery = '';
     this.selectedArea = '';
   }
