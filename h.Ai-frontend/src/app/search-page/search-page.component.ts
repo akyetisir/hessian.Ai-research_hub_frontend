@@ -23,7 +23,11 @@ export class SearchPageComponent implements OnInit {
   papers: Paper[] = [];
   searchQuery: string = '';
   selectedArea = '';
-  sortOption: string = 'Date'; 
+  sortOption: string = 'Date (new to old)'; // Default criteria for sorting
+  sortOptions: string[] = [
+    'Date (new to old)', 'Date (old to new)',
+    'Views (high to low)', 'Views (low to high)',
+    'Relevance'];
   currentPage = 1;
   totalPages = 68;
 
@@ -62,7 +66,7 @@ export class SearchPageComponent implements OnInit {
       next: (data: Paper[]) => {
         if (data && data.length > 0) {
           this.papers = data; // Store the fetched papers in the papers array
-          this.papers.sort((a,b) => b.date.getTime() - a.date.getTime());
+          this.sortResults();
           console.log('Papers fetched successfully:', this.papers);
         } else {
           console.log('No papers found.');
@@ -74,6 +78,20 @@ export class SearchPageComponent implements OnInit {
     });
   }
 
+  sortResults(): void {
+    if (this.sortOption === 'Date (new to old)') {
+      this.papers.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    } else if (this.sortOption === 'Date (old to new)') {
+      this.papers.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    } else if (this.sortOption === 'Views (high to low)') {
+      this.papers.sort((a, b) => b.views - a.views);
+    } else if (this.sortOption === 'Views (low to high)') {
+      this.papers.sort((a, b) => a.views - b.views);
+    } else if (this.sortOption === 'Relevance') {
+      this.papers.sort((a, b) => b.relevance - a.relevance);
+    }
+    console.log('Sorting by:', this.sortOption);
+  }
 
 
   toggleDropdown(index: number) {
@@ -113,9 +131,7 @@ export class SearchPageComponent implements OnInit {
     }
   }
 
-  sortResults() {
-    console.log('Sorting by:', this.sortOption);
-  }
+
 
 
 

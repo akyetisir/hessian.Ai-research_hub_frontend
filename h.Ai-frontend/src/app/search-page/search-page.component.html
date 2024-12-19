@@ -19,7 +19,7 @@
 <div class="sorting">
     <span>Sort by:</span>
     <select [(ngModel)]="sortOption" (change)="sortResults()" class="form-control expanded-select">
-        <option *ngFor="let option of sortOption" [value]="option">{{ option }}</option>
+        <option *ngFor="let option of sortOptions" [value]="option">{{ option }}</option>
     </select>
     
 </div>            
