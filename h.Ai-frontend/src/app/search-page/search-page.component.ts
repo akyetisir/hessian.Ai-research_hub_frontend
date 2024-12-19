@@ -78,6 +78,7 @@ export class SearchPageComponent implements OnInit {
     });
   }
 
+  // Function to sort all results
   sortResults(): void {
     if (this.sortOption === 'Date (new to old)') {
       this.papers.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
