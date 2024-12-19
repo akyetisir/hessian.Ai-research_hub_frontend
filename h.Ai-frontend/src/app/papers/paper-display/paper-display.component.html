@@ -107,7 +107,10 @@ paper-refer {
     <ul>
         <li> <section id="paper-tag">
             <ol>
-              <li *ngFor="let tag of paper?.tags"><p>{{ tag }}</p></li>
+              <p>Tags:</p>
+              <li *ngFor="let tag of paper?.tags">
+                <p>{{ tag }}</p>
+              </li>
             </ol>
         </section></li>
         
@@ -128,21 +131,22 @@ paper-refer {
   
   <article>
     <div>
-        <p>Paper</p>
-        <p>{{ paper?.date}}</p>
+        <p>Get to know more about the paper</p>
+        <p>Released in: {{ paper?.date | date: 'yyyy' }}</p>
     </div>
 
     <header>
         <div class="paper-title">
-          <p>{{ paper?.title }}</p>
+          <h1>{{ paper?.title }}</h1>
         </div>
     </header>
+
     <div class="paper-author">
       <p>{{ paper?.authors?.join(', ') }}</p>  
     </div>
 
     <div class="paper-sumary">
-      <p>{{ paper?.abstract }}</p>
+      <p><strong>Sumary:</strong> {{ paper?.abstract }} </p>
     </div>
     
 </article>

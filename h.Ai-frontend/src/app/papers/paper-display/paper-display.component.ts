@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CommonModule, NgFor} from '@angular/common';
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { ActivatedRoute } from '@angular/router';
@@ -8,7 +9,7 @@ import { Paper } from '../../shared/models/paper.model';
 @Component({
   selector: 'app-paper-display',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent],
+  imports: [CommonModule, NgFor, HeaderComponent, FooterComponent],
   templateUrl: './paper-display.component.html',
   styleUrl: './paper-display.component.less'
 })
