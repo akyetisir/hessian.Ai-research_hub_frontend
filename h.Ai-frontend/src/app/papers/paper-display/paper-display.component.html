@@ -132,7 +132,6 @@ paper-refer {
   <article>
     <div>
         <p>Get to know more about the paper</p>
-        <p>Released in: {{ paper?.date | date: 'yyyy' }}</p>
     </div>
 
     <header>
@@ -140,13 +139,17 @@ paper-refer {
           <h1>{{ paper?.title }}</h1>
         </div>
     </header>
-
-    <div class="paper-author">
-      <p>{{ paper?.authors?.join(', ') }}</p>  
+    
+    <div class="paper-date">
+      <p><strong>Released in: </strong>{{ paper?.date | date: 'yyyy' }}</p>
     </div>
 
-    <div class="paper-sumary">
-      <p><strong>Sumary:</strong> {{ paper?.abstract }} </p>
+    <div class="paper-author">
+      <p><strong>Authors: </strong>{{ paper?.authors?.join(', ') }}</p>  
+    </div>
+
+    <div class="paper-summary">
+      <p><strong>Summary:</strong> {{ paper?.abstract }} </p>
     </div>
     
 </article>
