@@ -23,7 +23,7 @@ export class SearchPageComponent implements OnInit {
   papers: Paper[] = [];
   searchQuery: string = '';
   selectedArea = '';
-  sortOption: string = 'Date';
+  sortOption: string = 'Date'; 
   currentPage = 1;
   totalPages = 68;
 
