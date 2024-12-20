@@ -147,7 +147,8 @@ article {
           <h3>
             <a [routerLink]="['/paper', paper.title]" routerLinkActive="router-link-active">{{ paper.title }}</a>
           </h3>
-          <p><strong>Category:</strong> {{ paper.tags }}</p>
+          <p><strong>Summary:</strong> {{ paper.abstract}}</p>
+          <p><strong>Category:</strong> {{ paper.tags.join(', ') }}</p>
           <p><strong>Authors:</strong> {{ paper.authors.join(', ') }}</p>
           <p><strong>Year:</strong> {{ paper.date | date: 'yyyy' }}</p>
           <p><strong>Views:</strong> {{ paper.views }}</p>

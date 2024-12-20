@@ -20,14 +20,6 @@ import { PaperDescriptionComponent } from '../papers/paper-description/paper-des
 
 export class SearchPageComponent implements OnInit {
 
-  // // Data Examples
-  // researchAreas = [
-  //   { name: 'Machine Learning', color: 'blue' },
-  //   { name: 'Deep Learning', color: 'green' },
-  //   { name: 'Computer Vision', color: 'red' },
-  //   { name: 'Database Systems', color: 'orange' },
-  // ];
-
   papers: Paper[] = [];
   searchQuery: string = '';
   selectedArea = '';
