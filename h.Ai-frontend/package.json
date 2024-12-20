@@ -23,6 +23,7 @@
     "@fortawesome/fontawesome-free": "^6.7.1",
     "ag-grid-angular": "^32.3.3",
     "ag-grid-community": "^32.3.3",
+    "pdf-ts": "^0.0.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.10"
