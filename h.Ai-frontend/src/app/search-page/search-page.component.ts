@@ -30,31 +30,74 @@ export class SearchPageComponent implements OnInit {
     'Relevance'];
   currentPage = 1;
   totalPages = 68;
-  filters = ['selectedAreas', 'selectedYears', 'views', 'relevantScore' ];
+  //filters = ['selectedAreas', 'selectedYears', 'views' ];
   filteredPapers: Paper[] = [];
 
-  // Drop down section
-  // Array to hold dropdown data
-  dropdown = [
-  // 1. Dropdown: Research areas (tags)
-    { icon: 'none',
-      heading : 'Research areas',
-      isExpanded : false,
-      childContents : ['Machine Learning', '(Probabilistic) Deep Learning', 'Statistical Relational AI', 
-        'Computer Vision', 'Natural Language Processing', 'Robotics',
-        'Models of Higher Cognition', 'Psychology of Information Processing', 'Database Systems',
-        'Software Engineering', 'Distributed Systems', 'Hardware',
-        'Bioinformatics','Semantic Web', 'Sustainability',
-        'Medicine', 'Finance', 'Multimodal AI'
-      ]
-    },
-    // 2. Dropdown: Publish year
-    { icon: '',
-      heading : 'Publish year',
-      isExpanded : false,
-      childContents : ['2020', '2021', '2022', '2023', '2024']
-    },
+  // Filters
+  filters: {
+    selectedAreas: { [key: string]: boolean },
+    selectedYears: { [key: string]: boolean },
+    selectedViews: { [key: string]: boolean }
+  } = {
+    selectedAreas: {},
+    selectedYears: {},
+    selectedViews: {}
+  };
+
+   // filterState object to control visibility of filters
+   filterState = {
+    researchAreas: false,
+    publishYear: false,
+    views: false
+  };
+
+  // Methods for toggle behavior of filter sections
+  toggleFilter(filter: keyof typeof this.filterState): void {
+    // Toggle the boolean value of the corresponding filter state
+    this.filterState[filter] = !this.filterState[filter];
+  }
+  
+
+  applyFilters(): void {
+    // Filter the papers based on the selected filters
+    this.filteredPapers = this.papers.filter(paper => {
+      const areaMatches = Object.keys(this.filters.selectedAreas).length === 0 || 
+                           Object.keys(this.filters.selectedAreas).some(area => this.filters.selectedAreas[area] && paper.tags.includes(area));
+  
+      const yearMatches = Object.keys(this.filters.selectedYears).length === 0 || 
+                           Object.keys(this.filters.selectedYears).some(year => this.filters.selectedYears[year] && new Date(paper.date).getFullYear().toString() === year);
+  
+      const viewMatches = Object.keys(this.filters.selectedViews).length === 0 || 
+                           Object.keys(this.filters.selectedViews).some(view => this.filters.selectedViews[view] && paper.views >= parseInt(view));
+  
+      return areaMatches && yearMatches && viewMatches;
+    });
+  
+    // Sort the filtered results
+    this.sortResults();
+  }
+  
+  
+  resetFilters(): void {
+    this.filters.selectedAreas = {};
+    this.filters.selectedYears = {};
+    this.filters.selectedViews = {};
+    this.applyFilters(); // Reapply filter to update the results
+  }
+
+  researchAreas = [
+    'Machine Learning', '(Probabilistic) Deep Learning', 'Statistical Relational AI', 
+    'Computer Vision', 'Natural Language Processing', 'Robotics', 'Models of Higher Cognition',
+    'Psychology of Information Processing', 'Database Systems', 'Software Engineering', 
+    'Distributed Systems', 'Hardware', 'Bioinformatics', 'Semantic Web', 'Sustainability',
+    'Medicine', 'Finance', 'Multimodal AI'
   ];
+  
+  publishYears = ['2020', '2021', '2022', '2023', '2024'];
+  
+  viewOptions = ['0', '100', '500', '1000', '5000']; 
+  
+
 
   constructor (private paperService: PaperService) {}
   ngOnInit(): void {
@@ -97,24 +140,16 @@ export class SearchPageComponent implements OnInit {
   }
 
 
-  toggleDropdown(index: number) {
-    this.dropdown[index].isExpanded = !this.dropdown[index].isExpanded;
-    console.log('Dropdown toggled:', this.dropdown[index].isExpanded);
-  }
 
-  applyFilters(): void {
 
-  }
 
-  resetFilters(): void {
-  
-  }
     
   
   get searchedPapers() {
     return this.papers
       .filter(paper => paper.title.toLowerCase().includes(this.searchQuery.toLowerCase()));
   }
+  
   
   selectArea(area: any) {      
     this.selectedArea = area.name;

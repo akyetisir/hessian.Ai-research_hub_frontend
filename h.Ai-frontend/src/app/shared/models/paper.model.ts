@@ -9,7 +9,14 @@ export interface Paper {
     tags: string[];
     abstract?: string;
     views: number;
+<<<<<<< Updated upstream
     pdfUrl?: string;
     source?: string;
     citationCount?: number;
 }
+=======
+    pdfUrl: string;
+    source: string;
+    citationCount: number;
+}
+>>>>>>> Stashed changes
