@@ -39,43 +39,63 @@
         
         <br>
 
-        <li><div class="search-bar" *ngFor="let dropdown of dropdown; let i = index"> 
-            <div class="dropdown-container">
-              <!-- Dropdown Heading -->
-               <div class="dropdown-header" (click)="toggleDropdown(i)"> 
-                <!-- Left: Icon and Heading -->
-                 <div class="header-icon">
-                    <i [class]="dropdown.icon"></i>
-                 </div>
-                 <div class="header">            
-                    <h2>{{ dropdown.heading }}</h2>
-                </div>
-                <!-- Right: Dropdown Arrow -->
-                 <span class="dropdown-arrow" [class.expanded]="dropdown.isExpanded">
-                    <i class="fa-solid fa-angle-down"></i> 
-                </span>
-            </div>
-            <!-- Dropdown Content -->
-             <div class="dropdown-content" *ngIf="dropdown.isExpanded">
-                <ul>
-                    <li *ngFor="let item of dropdown.childContents">{{ item }}</li>
-                </ul>
-            </div>
 
-            
-        </div>    
-    </div></li>
+        <!-- Filters Section -->
+       
+        <!-- Filter: Tags/Research Area -->
+        <div class="filters">
+          <h4 (click)="toggleFilter('researchAreas')">
+            Research Areas <i class="fa fa-chevron-down"></i>
+          </h4>
+          <ul *ngIf="filterState.researchAreas">
+            <li *ngFor="let area of researchAreas">
+              <input type="checkbox" [(ngModel)]="filters.selectedAreas[area]" (change)="applyFilters()" />
+              {{ area }}
+            </li>
+          </ul>
+        </div>
+
+        <!-- Filter: Publish Year -->
+        <div class="filters">
+          <h4 (click)="toggleFilter('publishYear')">
+            Publish Year <i class="fa fa-chevron-down"></i>
+          </h4>
+          <ul *ngIf="filterState.publishYear">
+            <li *ngFor="let year of publishYears">
+              <input type="checkbox" [(ngModel)]="filters.selectedYears[year]" (change)="applyFilters()" />
+              {{ year }}
+            </li>
+          </ul>
+        </div>
+
+        <!-- Filter: Views -->
+        <div class="filters">
+          <h4 (click)="toggleFilter('views')">
+            Views <i class="fa fa-chevron-down"></i>
+          </h4>
+          <ul *ngIf="filterState.views">
+            <li *ngFor="let view of viewOptions">
+              <input type="checkbox" [(ngModel)]="filters.selectedViews[view]" (change)="applyFilters()" />
+              {{ view }}
+            </li>
+          </ul>
+        </div>
+
+
+
     </ul>
   </nav>
   
   <article>
+    <!-- Display papers -->
     <div class="papers-list">
-      <div *ngFor="let paper of papers">
+      <!-- Show articles if results are from filters or search -->
+      <div *ngFor="let paper of displayedPapers">
         <div class="paper-item">
           <h3>
             <a [routerLink]="['/paper', paper.title]" routerLinkActive="router-link-active">{{ paper.title }}</a>
           </h3>
-          <p><strong>Summary:</strong> {{ paper.abstract}}</p>
+          <p><strong>Summary:</strong> {{ paper.abstract }}</p>
           <p><strong>Category:</strong> {{ paper.tags.join(', ') }}</p>
           <p><strong>Authors:</strong> {{ paper.authors.join(', ') }}</p>
           <p><strong>Year:</strong> {{ paper.date | date: 'yyyy' }}</p>
@@ -83,15 +103,20 @@
         </div>
         <hr />
       </div>
+    
+      <!-- Show message if there are no articles -->
+      <div *ngIf="filteredPapers.length === 0 && searchedPapers.length === 0">
+        <p>No papers found matching the selected filters or search query.</p>
+      </div>
     </div>
       
   
     <!-- Pagination -->
     <div class="pagination">
-        <button (click)="previousPage()"> 
+        <button (click)="previousPage()" [disabled]="currentPage === 1"> 
             <i class="fa-solid fa-circle-arrow-left"></i> </button>
         <span>{{ currentPage }} of {{ totalPages }}</span>
-        <button (click)="nextPage()"> 
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages"> 
             <i class="fa-solid fa-circle-arrow-right"></i> </button>
     </div>
 </article>
