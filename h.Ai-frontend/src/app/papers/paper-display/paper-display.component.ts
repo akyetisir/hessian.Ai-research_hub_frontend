@@ -6,11 +6,12 @@ import { ActivatedRoute } from '@angular/router';
 import { PaperService } from '../../services/paper/paper.service';
 import { Paper } from '../../shared/models/paper.model';
 import { pdfToText} from 'pdf-ts';
+import { ChatBoxComponent } from "../../chat-box/chat-box.component";
 
 @Component({
   selector: 'app-paper-display',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, FooterComponent],
+  imports: [CommonModule, HeaderComponent, FooterComponent, ChatBoxComponent],
   templateUrl: './paper-display.component.html',
   styleUrl: './paper-display.component.less'
 })
