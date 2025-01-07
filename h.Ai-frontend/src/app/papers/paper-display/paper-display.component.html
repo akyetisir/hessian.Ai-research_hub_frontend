@@ -41,22 +41,35 @@
         </div>
       </li>
   
-      <li>
+      <!-- <li>
         <div class="paper-summary">
           <p><strong>Summary:</strong> {{ paper?.abstract }} [Summary text here ...] </p>
+        </div>
+      </li> -->
+
+      <li> 
+        <div class="paper-views">
+          <p> {{ paper?.views }} <i class="fa-solid fa-eye"></i></p>  
         </div>
       </li>
 
       <li> 
-        <div class="paper-views">
-          <p> 123 {{ paper?.views }} <i class="fa-solid fa-eye"></i></p>  
+        <div class="paper-score">
+          <p> {{ paper?.relevance }} <i class="fa-solid fa-star"></i></p>  
         </div>
       </li>
       
-      <li><div class="paper-publication"> 
-          <a href="https://link.springer.com/content/pdf/10.1007/s11263-010-0390-2.pdf"><strong>View publication (link demo) </strong> <i class="fa-solid fa-link"></i></a>
+      <li><div class="paper-pdf"> 
+          <a href="https://link.springer.com/content/pdf/10.1007/s11263-010-0390-2.pdf"><strong>View PDF (link demo) </strong> <i class="fa-solid fa-link"></i></a>
           </div>
       </li>
+      
+      <br>
+
+      <li><div class="paper-chat"> 
+        <a href="https://www.google.com"><strong>Ask a question...? (link demo: Google) </strong> </a>
+        </div>
+    </li>
     </ul>
   </nav>
   
@@ -86,7 +99,7 @@
 </article>
 </section>
 
-<div class="paper-refer">
+<!-- <div class="paper-refer">
   <h1>Related readings and updates</h1>
   <div class="refer-box">
     <div class="reference">
@@ -115,7 +128,7 @@
       <button type="button">See paper details</button>
     </div>
   </div>
-</div>
+</div> -->
 
 
 <app-footer></app-footer>
