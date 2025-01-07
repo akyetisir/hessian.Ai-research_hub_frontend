@@ -19,7 +19,7 @@ export class PaperService {
     return {
       id: data.id,
       title: data.title,
-      date: new Date(data.date), 
+      date: new Date(data.published), 
       authors: data.authors || [], // If there is no author, return blank
       relevance: data.relevance,
       tags: data.tags || [],
