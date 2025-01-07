@@ -7,9 +7,9 @@ export interface Paper {
     authors: string[];
     relevance: number;
     tags: string[];
-    abstract?: string;
+    abstract: string;
     views: number;
-    pdfUrl?: string;
-    source?: string;
-    citationCount?: number;
+    pdfUrl: string;
+    source: string;
+    citationCount: number;
 }

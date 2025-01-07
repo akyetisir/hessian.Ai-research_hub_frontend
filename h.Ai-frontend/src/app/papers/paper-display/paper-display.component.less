@@ -2,26 +2,22 @@
 /* Global styling */
 * {
   box-sizing: border-box;
+}
+
+body{
   font-family: 'Poppins', sans-serif;
 }
 
-
 /* Header styling */
 header {
-  display: flex;
-  gap: 20px;
-  justify-content: space-between;
-  background-color: none;
-  padding: 40px;
-  padding-top: 10px;
-  text-align: left;
-  font-size: 20px;
-  color: black;
+  margin-left: 5%;
+  font-size: 30px;
+  color: #36196d;
 }
 
 /* Section styling */
 section {
-  display: -webkit-flex;
+  display: flex;
   display: flex;
   font-family: 'Poppins',sans-serif;
   font-size: 14px;
@@ -30,7 +26,6 @@ section {
   /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
   @media (max-width: 600px) {
     section {
-      -webkit-flex-direction: column;
       flex-direction: column;
     }
   }
@@ -38,45 +33,76 @@ section {
 
 /* Navigation menu styling */
 nav {
-  -webkit-flex: 1;
-  -ms-flex: 1;
   flex: 1;
+  border-radius: 8px;
   background: #7a46eb;
+  margin-left: 5%;
+  margin-right: 15px;
   padding: 20px;
+  font-family: 'Poppins',sans-serif;
   font-size: 14px;
   color: #edecfd;
+  
 
   ul {
     list-style-type: none;
-    padding: 10px;
+    padding-left: 10px;
+    font-family: 'Poppins',sans-serif;
+    font-size: 14px;
+    color: #edecfd;
+    
+  }
+  .paper-photo{
+    justify-content: space-between;
+    object-fit: cover;
+  }
+
+  a {
+    text-decoration: none !important;
+    color: #edecfd;
+    cursor: pointer;
   }
   
 }
 
 /* Article styling */
 article {
-  -webkit-flex: 3;
-  -ms-flex: 3;
   flex: 3;
-  background-color: #f1f1f1;
+  //  background-color: #f1f1f1;
   padding: 10px;
+  margin-left: 15px;
+  margin-right: 5%;
+  font-family: 'Poppins',sans-serif;
   font-size: 14px;
   color: black;
+
+  iframe  {
+    width: 100%;
+    height: 750px;
+  }
+
+  
+
 }
 
 /* Paper refer styling */
-paper-refer {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap;
-  width: 100%;
-  height: auto;
-  gap: 5px;
-  padding: 1rem 0;
-  box-sizing: border-box;
-
+// paper-refer {
+//   display: flex;
+//   justify-content: space-around;
+//   align-items: center;
+//   flex-wrap: wrap;
+//   width: 100%;
+//   height: auto;
+//   gap: 5px;
+//   padding: 1rem 0;
+//   box-sizing: border-box;
   
+// }
+
+h1{
+  margin-top: 5%;
+  margin-left: 5%;
+  color: #36196d;
 }
 
 
@@ -85,6 +111,8 @@ paper-refer {
     justify-content: space-between;
     flex-wrap: wrap; 
     gap: 5px;       
+    margin-left: 5%;
+    margin-right: 5%;
   }
 
 .reference {
