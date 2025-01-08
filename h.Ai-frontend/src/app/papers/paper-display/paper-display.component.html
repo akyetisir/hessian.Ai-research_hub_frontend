@@ -60,7 +60,8 @@
       </li>
       
       <li><div class="paper-pdf"> 
-          <a href="https://link.springer.com/content/pdf/10.1007/s11263-010-0390-2.pdf"><strong>View PDF (link demo) </strong> <i class="fa-solid fa-link"></i></a>
+          <a href="paper?.pdfUrl"><strong>View PDF (link demo) </strong> <i class="fa-solid fa-link"></i></a>
+          <p> Url: {{paper?.pdfUrl}}</p>
           </div>
       </li>
       
@@ -81,18 +82,13 @@
       height="100%"
     > -->
     <iframe
-      src="https://link.springer.com/content/pdf/10.1007/s11263-010-0390-2.pdf"
-      title="paper?.title"
-      width="100%"
-      height="100%"
-      style="border: none;"
-    >
-		<p>
-			Your browser does not support PDFs.
-			<a href="paper?.pdfUrl">Download the PDF</a>
-			.
-		</p>
-  </iframe>
+  [src]="sanitizedPdfUrl"
+  width="100%"
+  height="600px"
+  style="border: none"
+>
+  <p>Your browser does not support PDFs.</p>
+</iframe>
 
   <app-chat-box></app-chat-box>
   

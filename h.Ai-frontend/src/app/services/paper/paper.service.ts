@@ -11,6 +11,7 @@ import { Paper } from '../../shared/models/paper.model';
 export class PaperService {
 
   private baseUrl = 'http://localhost:8000'; // URL of Backend
+  private pdfBaseUrl = 'http://127.0.0.1:8000'; // URL of PDFs
 
   constructor(private http: HttpClient) { }
 
@@ -25,7 +26,7 @@ export class PaperService {
       tags: data.tags || [],
       abstract: data.abstract,
       views: data.views,
-      pdfUrl: data.pdfUrl,
+      pdfUrl: `${this.pdfBaseUrl}/${data.path}`,
       source: data.source,
       citationCount: data.citationCount,
     };
