@@ -7,13 +7,15 @@ import { FooterComponent } from "../shared/footer/footer.component";
 import { PaperService } from '../services/paper/paper.service';
 import { Paper } from '../shared/models/paper.model';
 import { PaperDescriptionComponent } from '../papers/paper-description/paper-description.component';
+import { HttpClientModule } from '@angular/common/http'; // Import HttpClientModule
+
 
 
 @Component({
   selector: 'app-search-page',
   standalone: true,
   imports: [RouterOutlet, RouterLink, RouterModule, 
-    HeaderComponent, FormsModule, NgIf, NgFor, CommonModule, FooterComponent, PaperDescriptionComponent],
+    HeaderComponent, FormsModule, NgIf, NgFor, CommonModule, FooterComponent, PaperDescriptionComponent,HttpClientModule],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.less'
 })
@@ -22,7 +24,7 @@ export class SearchPageComponent implements OnInit {
 
   papers: Paper[] = [];
   searchQuery: string = '';
-  selectedArea = '';
+  
   sortOption: string = 'Date (new to old)'; // Default criteria for sorting
   sortOptions: string[] = [
     'Date (new to old)', 'Date (old to new)',
@@ -30,8 +32,7 @@ export class SearchPageComponent implements OnInit {
     'Relevance'];
   currentPage = 1;
   totalPages: number = 1; // Initially set to 1
-  papersPerPage: number = 5; // Number of papers per page
-  //filters = ['selectedAreas', 'selectedYears', 'views' ];
+  papersPerPage: number = 15; // Number of papers per page
   filteredPapers: Paper[] = [];
 
   // Filters
@@ -80,9 +81,7 @@ export class SearchPageComponent implements OnInit {
     // After applying filters, reset to the first page
     this.currentPage = 1;
     this.totalPages = Math.ceil(this.filteredPapers.length / this.papersPerPage);
-    this.updateDisplayedPapers();
-
-
+    
   }
   
   
@@ -115,13 +114,12 @@ export class SearchPageComponent implements OnInit {
 
   // Function to fetch papers from the backend
   fetchPapers(): void {
-    this.paperService.getAllPapers().subscribe({
-      next: (data: Paper[]) => {
-        if (data && data.length > 0) {
-          this.papers = data; // Store the fetched papers in the papers array
-          this.totalPages = Math.ceil(this.papers.length / this.papersPerPage); // Calculate total pages
+    this.paperService.getAllPapers(this.currentPage, this.papersPerPage).subscribe({
+      next: (data: { papers: Paper[], totalPapers: number }) => { // Receive totalPapers
+        if (data.papers && data.papers.length > 0) {
+          this.papers = data.papers; // Store the fetched papers in the papers array
+          this.totalPages = Math.ceil(data.totalPapers / this.papersPerPage); // Calculate total pages based on totalPapers
           this.sortResults();
-          this.updateDisplayedPapers();
           console.log('Papers fetched successfully:', this.papers);
         } else {
           console.log('No papers found.');
@@ -132,6 +130,7 @@ export class SearchPageComponent implements OnInit {
       }
     });
   }
+
 
   // Function to sort all results
   sortResults(): void {
@@ -154,62 +153,32 @@ export class SearchPageComponent implements OnInit {
   get displayedPapers(): Paper[] {
     const startIndex = (this.currentPage - 1) * this.papersPerPage;
     const endIndex = startIndex + this.papersPerPage;
-    return this.filteredPapers.length > 0 ? this.filteredPapers.slice(startIndex, endIndex) : this.papers.slice(startIndex, endIndex);
+    const papersToDisplay = this.filteredPapers.length > 0 ? this.filteredPapers : this.papers;
+    console.log('Displayed papers:', papersToDisplay); // Log displayed papers
+    return this.papers;
   }
-
-    // Update the papers based on the current page
-    updateDisplayedPapers(): void {
-      this.displayedPapers;
-    }
-
-
-
-
-    
-  
   get searchedPapers() {
     return this.papers
       .filter(paper => paper.title.toLowerCase().includes(this.searchQuery.toLowerCase()));
   }
-  
-  
-  selectArea(area: any) {      
-    this.selectedArea = area.name;
-  }
-  
-  resetSearch(): void {
-    this.searchQuery = '';
-    this.selectedArea = '';
-  }
+    
 
-  toggleYearFilter() {
-    console.log('Year filter toggled');
-  }
+
+
 
   previousPage() {
-    if ( this.currentPage > 1 && this.currentPage < this.totalPages) {
+    if ( this.currentPage > 1) {
       this.currentPage--;
-      this.updateDisplayedPapers();
+      this.fetchPapers();
     }
   }
 
   nextPage() {
-    if (this.currentPage > 0 && this.currentPage < this.totalPages) {
+    if (this.currentPage > 0) {
       this.currentPage++;
-      this.updateDisplayedPapers();
+      this.fetchPapers();
     }
   }
 
-
-
-
-
-//     // Test if the data is called from backend
-// ngOnInit(): void {
-//   this.paperService.getPapersByAuthor('John Doe').subscribe({
-//     next: (data) => console.log('Papers fetched successfully:', data),
-//     error: (err) => console.error('Error fetching papers:', err)
-//   });
-// }
 
 }

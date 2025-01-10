@@ -40,7 +40,8 @@ export class PaperDisplayComponent implements OnInit {
     const title = this.route.snapshot.paramMap.get('title');
     if (title) {
       this.paperService.getPapersViaTitle(title).subscribe(
-        (data: Paper | null) => {
+        (response: { papers: Paper[]; totalPapers: number }) => {
+          const data = response.papers[0] || null;
           if (data) {
             this.paper = data;
 

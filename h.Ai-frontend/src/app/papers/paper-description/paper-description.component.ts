@@ -22,18 +22,18 @@ export class PaperDescriptionComponent implements OnInit {
   constructor(private route: ActivatedRoute, private paperService: PaperService) {  }
 
   ngOnInit(): void {
-    const title = this.route.snapshot.paramMap.get('title');
-    if (title) {
-      this.paperService.getPapersViaTitle(title).subscribe({
-        next: (data: Paper | null) => {
-            this.paper = data;
-        },
-        error: (err) => {
-          this.errorMessage = 'Error fetching paper details!';
-          console.error('Error:', err);
-        }
-      });
-    }
+    // const title = this.route.snapshot.paramMap.get('title');
+    // if (title) {
+    //   this.paperService.getPapersViaTitle(title).subscribe({
+    //     next: (data: Paper | null) => {
+    //         this.paper = data;
+    //     },
+    //     error: (err) => {
+    //       this.errorMessage = 'Error fetching paper details!';
+    //       console.error('Error:', err);
+    //     }
+    //   });
+    // }
   }
 
 }
