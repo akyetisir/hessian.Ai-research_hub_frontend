@@ -22,6 +22,7 @@ import { HttpClientModule } from '@angular/common/http'; // Import HttpClientMod
 
 export class SearchPageComponent implements OnInit {
 
+
   papers: Paper[] = [];
   searchQuery: string = '';
   
@@ -34,6 +35,8 @@ export class SearchPageComponent implements OnInit {
   totalPages: number = 1; // Initially set to 1
   papersPerPage: number = 15; // Number of papers per page
   filteredPapers: Paper[] = [];
+  authorQuery: any;
+
 
   // Filters
   filters: {
@@ -52,6 +55,7 @@ export class SearchPageComponent implements OnInit {
     publishYear: false,
     views: false
   };
+
 
   // Methods for toggle behavior of filter sections
   toggleFilter(filter: keyof typeof this.filterState): void {
@@ -189,5 +193,27 @@ export class SearchPageComponent implements OnInit {
     });
   }
 
+
+  // Function to handle search
+  searchByAuthor(): void {
+    this.paperService.getPapersViaAuthor(this.authorQuery, this.currentPage, this.papersPerPage).subscribe({
+      next: (response) => {
+        this.papers = response.papers;
+        this.totalPages = Math.ceil(response.totalPapers / this.papersPerPage);
+      },
+      error: (err) => {
+        console.error('Error fetching papers by author:', err);
+        this.papers = []; // Clear list if error occurs
+        alert('No papers found for the given author.');
+      }
+    });
+    }
+
+  // This function listens for the Enter event and triggers the searchByAuthor function
+  onKeyPress(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      this.searchByAuthor();
+    }
+  }
 
 }

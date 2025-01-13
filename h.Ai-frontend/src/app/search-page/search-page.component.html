@@ -30,11 +30,13 @@
     <ul>
         <li> <section id="search-bar">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" placeholder="Search research" [(ngModel)]="searchQuery" />
+            <input type="text" placeholder="Search by Researcher" [(ngModel)]="authorQuery" (keypress)="onKeyPress($event)"/>
+            
         </section></li>
-        
-        <li><section id="reset-search"> 
-            <button class="reset-search" (click)="resetFilters()">Reset search</button>
+
+        <li><section id="search-button">
+          <button (click)="searchByAuthor()">Search</button> 
+          <button class="reset-search" (click)="fetchPapers()">Reset search</button>
         </section></li>
         
         <br>
