@@ -30,11 +30,13 @@
     <ul>
         <li> <section id="search-bar">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" placeholder="Search research" [(ngModel)]="searchQuery" />
+            <input type="text" placeholder="Search by Researcher" [(ngModel)]="authorQuery" (keypress)="onKeyPress($event)"/>
+            
         </section></li>
-        
-        <li><section id="reset-search"> 
-            <button class="reset-search" (click)="resetFilters()">Reset search</button>
+
+        <li><section id="search-button">
+          <button (click)="searchByAuthor()">Search</button> 
+          <button class="reset-search" (click)="fetchPapers()">Reset search</button>
         </section></li>
         
         <br>
@@ -90,26 +92,28 @@
     <!-- Display papers -->
     <div class="papers-list">
       <!-- Show articles if results are from filters or search -->
-      <div *ngFor="let paper of displayedPapers">
-        <div class="paper-item">
-          <h3>
-            <a [routerLink]="['/paper', paper.title]" routerLinkActive="router-link-active">{{ paper.title }}</a>
-          </h3>
-          <p><strong>Summary:</strong> {{ paper.abstract }}</p>
-          <p><strong>Category:</strong> {{ paper.tags.join(', ') }}</p>
-          <p><strong>Authors:</strong> {{ paper.authors.join(', ') }}</p>
-          <p><strong>Year:</strong> {{ paper.date | date: 'yyyy' }}</p>
-          <p><strong>Views:</strong> {{ paper.views }}</p>
+      <div *ngIf="displayedPapers.length > 0; else noResult">
+        <div *ngFor="let paper of displayedPapers">
+          <div class="paper-item">
+            <h3>
+              <a [routerLink]="['/paper', paper.title]" routerLinkActive="router-link-active">{{ paper.title }}</a>
+            </h3>
+            <p><strong>Summary:</strong> {{ paper.abstract }}</p>
+            <p><strong>Category:</strong> {{ paper.tags.join(', ') }}</p>
+            <p><strong>Authors:</strong> {{ paper.authors.join(', ') }}</p>
+            <p><strong>Year:</strong> {{ paper.date | date: 'yyyy' }}</p>
+            <p><strong>Views:</strong> {{ paper.views }}</p>
+          </div>
+          <hr />
         </div>
-        <hr />
       </div>
-    
-      <!-- Show message if there are no articles -->
-      <div *ngIf="filteredPapers.length === 0 && searchedPapers.length === 0">
+      <ng-template #noResult>
         <p>No papers found matching the selected filters or search query.</p>
-      </div>
+      </ng-template>
     </div>
       
+
+        
   
     <!-- Pagination -->
     <div class="pagination">

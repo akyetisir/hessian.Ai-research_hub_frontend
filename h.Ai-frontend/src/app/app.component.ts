@@ -9,12 +9,13 @@ import { CategoryComponent } from './shared/category/category.component';
 import { WaveLogoComponent } from './shared/wave-logo/wave-logo.component';
 import { TrendComponent } from './shared/trend/trend.component';
 import { routes } from './app.routes';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HomepageComponent, SearchPageComponent],
+  imports: [RouterOutlet, HomepageComponent, SearchPageComponent, HttpClientModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
 })
@@ -23,7 +24,7 @@ export class AppComponent {
 }
 
 bootstrapApplication(AppComponent, {
-  providers: [provideRouter(routes)] // Sử dụng provideRouter để cung cấp các routes
+  providers: [provideRouter(routes)] // Sử dụng provideRouter để cung cấp các routes,
 }).catch((err) => console.error(err));
 
 
