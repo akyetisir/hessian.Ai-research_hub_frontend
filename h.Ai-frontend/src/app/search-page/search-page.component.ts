@@ -170,6 +170,7 @@ export class SearchPageComponent implements OnInit {
     if ( this.currentPage > 1) {
       this.currentPage--;
       this.fetchPapers();
+      this.scrollToTop();
     }
   }
 
@@ -177,7 +178,15 @@ export class SearchPageComponent implements OnInit {
     if (this.currentPage > 0) {
       this.currentPage++;
       this.fetchPapers();
+      this.scrollToTop();
     }
+  }
+
+  scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // Smooth scroll to top
+    });
   }
 
 
