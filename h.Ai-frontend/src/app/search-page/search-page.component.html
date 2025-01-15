@@ -96,7 +96,7 @@
         <div *ngFor="let paper of displayedPapers">
           <div class="paper-item">
             <h3>
-              <a [routerLink]="['/paper', paper.title]" routerLinkActive="router-link-active">{{ paper.title }}</a>
+              <a [routerLink]="['/paper', paper.title]" routerLinkActive="router-link-active" target="_blank">{{ paper.title }}</a>
             </h3>
             <p><strong>Summary:</strong> {{ paper.abstract }}</p>
             <p><strong>Category:</strong> {{ paper.tags.join(', ') }}</p>
