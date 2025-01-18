@@ -29,11 +29,13 @@ export class PaperDisplayComponent implements OnInit {
 
   // Hier speichern wir die „entschärfte“ URL fürs Iframe
   sanitizedPdfUrl: SafeResourceUrl | null = null;
+  sanitizedImageUrl: SafeResourceUrl | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private paperService: PaperService,
-    private sanitizer: DomSanitizer   // <-- Wichtig für das Umgehen von NG0904
+    private sanitizer: DomSanitizer,   // <-- Wichtig für das Umgehen von NG0904
+
   ) {}
 
   ngOnInit(): void {
@@ -45,11 +47,16 @@ export class PaperDisplayComponent implements OnInit {
           if (data) {
             this.paper = data;
 
-            // Falls pdfUrl vorhanden ist, „entschärfen“:
             if (data.pdfUrl) {
               this.sanitizedPdfUrl = this.sanitizer
                 .bypassSecurityTrustResourceUrl(data.pdfUrl);
             }
+
+            if (data.image) {
+              this.sanitizedImageUrl = this.sanitizer
+                .bypassSecurityTrustResourceUrl(data.image);
+              console.log('Sanitized Image URL:', this.sanitizedImageUrl);
+            }            
 
           } else {
             console.error('Cannot find paper with this title.');

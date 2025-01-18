@@ -32,6 +32,7 @@ export class PaperService {
       pdfUrl: `${this.pdfBaseUrl}/${data.path || ''}`,
       source: data.journal || '',
       citations: data.citations,
+      image: `${this.pdfBaseUrl}/${data.path_image || ''}`
     };
   }
 

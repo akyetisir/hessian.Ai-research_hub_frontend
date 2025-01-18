@@ -24,7 +24,7 @@ export class AppComponent {
 }
 
 bootstrapApplication(AppComponent, {
-  providers: [provideRouter(routes)] // Sử dụng provideRouter để cung cấp các routes,
+  providers: [provideRouter(routes)] // Provide our routes
 }).catch((err) => console.error(err));
 
 
