@@ -153,7 +153,7 @@ article {
 
   .paper-item {
     background: #fff;
-    border: 1px solid #ccc;
+    border: 1.5px solid #ccc;
     border-radius: 8px;
     padding: 20px;
     padding-left: 5%;
@@ -163,6 +163,15 @@ article {
     &:hover {
       transform: translateY(-3px);
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      border-color: #7a46eb;
+    }
+
+    .paper-info {
+      display: flex;
+      justify-content: space-between; // Dàn đều các phần tử
+      align-items: center; // Căn giữa theo trục dọc
+      gap: 0.5rem;
+      padding-right: 3%;
     }
 
     h3 {

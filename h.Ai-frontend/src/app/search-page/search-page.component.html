@@ -101,16 +101,21 @@
       <div *ngIf="displayedPapers.length > 0; else noResult">
         <div *ngFor="let paper of displayedPapers">
           <div class="paper-item">
-            <h3>
-              <a [routerLink]="['/paper', paper.title]" routerLinkActive="router-link-active" target="_blank">{{ paper.title }}</a>
-            </h3>
+            <div class="paper-info">
+              <div>
+                <h3>
+                  <a [routerLink]="['/paper', paper.title]" routerLinkActive="router-link-active" target="_blank">{{ paper.title }}</a>
+                </h3>
+                <p><strong>Category:</strong> {{ paper.tags.join(', ') }}</p>
+                <p><strong>Authors:</strong> {{ paper.authors.join(', ') }}</p>
+                <p><strong>Year:</strong> {{ paper.date | date: 'yyyy' }}</p>
+                <p><strong>Views:</strong> {{ paper.views }}</p>
+              </div>
+              <img [src]="paper.image" width="150px" height="150px" alt="Image of {{paper?.image}}" />
+            </div>
             <p><strong>Summary:</strong> {{ paper.abstract }}</p>
-            <p><strong>Category:</strong> {{ paper.tags.join(', ') }}</p>
-            <p><strong>Authors:</strong> {{ paper.authors.join(', ') }}</p>
-            <p><strong>Year:</strong> {{ paper.date | date: 'yyyy' }}</p>
-            <p><strong>Views:</strong> {{ paper.views }}</p>
           </div>
-          <hr />
+          
         </div>
       </div>
       <ng-template #noResult>
