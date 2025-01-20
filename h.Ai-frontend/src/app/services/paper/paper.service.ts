@@ -20,6 +20,10 @@ export class PaperService {
 
   // Function to convert backend data into Paper object
   private mapToPaper (data:any): Paper {
+
+    // fs can't store ':' and replaces it with '_' so we need to reflect that here
+    let image_path =  data.path_image? data.path_image.replaceAll(':', '_') : data.path_image 
+
     return {
       id: data._id,
       title: data.title,
@@ -32,7 +36,7 @@ export class PaperService {
       pdfUrl: `${this.pdfBaseUrl}/${data.path || ''}`,
       source: data.journal || '',
       citations: data.citations,
-      image: `${this.pdfBaseUrl}/${data.path_image || ''}`
+      image: `${this.pdfBaseUrl}/${image_path || ''}`
     };
   }
 

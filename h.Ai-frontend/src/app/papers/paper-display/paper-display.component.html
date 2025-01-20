@@ -22,7 +22,7 @@
     <ul>
 
       <li><section id="paper-photo"> 
-        <img [src]="sanitizedImageUrl" alt="Image of {{paper?.image}}">
+        <img [src]="paper?.image" onerror="this.src='https://hessian.ai/wp-content/themes/hessianai/apple-touch-icon.png';" />
       </section></li>
         
       <li> <section id="paper-tag">
