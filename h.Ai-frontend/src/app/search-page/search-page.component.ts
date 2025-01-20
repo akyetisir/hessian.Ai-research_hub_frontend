@@ -234,6 +234,7 @@ searchByTitle(): void {
 
   // Function to trigger the correct search based on the selected option
   perfomSearch(): void {
+    this.currentPage = 1;
     if (this.searchOption === 'author') {
       this.searchByAuthor();
     } else if (this.searchOption === 'title') {
@@ -251,6 +252,7 @@ searchByTitle(): void {
   resetSearch(): void {
     this.searchQuery = '';
     this.searchOption = 'author';
+    this.currentPage = 1;
     this.fetchPapers(); 
   }
 
