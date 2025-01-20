@@ -12,4 +12,5 @@ export interface Paper {
     pdfUrl: string;
     source: string;
     citations: number;
+    image: string;
 }

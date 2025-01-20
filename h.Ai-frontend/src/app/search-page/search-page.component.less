@@ -90,7 +90,7 @@ nav {
       color: #edecfd;
       border: 1px solid #7a46eb;
       border-radius: 4px;
-      font-size: 14px;
+      font-size: 16px;
       font-style: italic;
       cursor: pointer;
       outline: none;
@@ -98,6 +98,17 @@ nav {
       width: 100%; /* Full width input box */
     }
 
+    
+    #search-bar select {
+      font-size: 16px;
+      border: #7a46eb;
+      background-color: #7a46eb;
+      color: #edecfd;
+      padding: 0%;
+  
+    }
+
+  
     
     #search-button {
       justify-content: space-around;
@@ -142,7 +153,7 @@ article {
 
   .paper-item {
     background: #fff;
-    border: 1px solid #ccc;
+    border: 1.5px solid #ccc;
     border-radius: 8px;
     padding: 20px;
     padding-left: 5%;
@@ -152,6 +163,15 @@ article {
     &:hover {
       transform: translateY(-3px);
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      border-color: #7a46eb;
+    }
+
+    .paper-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      padding-right: 3%;
     }
 
     h3 {

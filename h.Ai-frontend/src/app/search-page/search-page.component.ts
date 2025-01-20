@@ -35,6 +35,8 @@ export class SearchPageComponent implements OnInit {
   totalPages: number = 1; // Initially set to 1
   papersPerPage: number = 15; // Number of papers per page
   filteredPapers: Paper[] = [];
+
+  searchOption: string = 'author'; // Default search by Author
   authorQuery: any;
 
 
@@ -195,25 +197,61 @@ export class SearchPageComponent implements OnInit {
 
 
   // Function to handle search
-  searchByAuthor(): void {
-    this.paperService.getPapersViaAuthor(this.authorQuery, this.currentPage, this.papersPerPage).subscribe({
+// Function to handle search by author
+searchByAuthor(): void {
+  if (this.searchOption === 'author') {
+    this.paperService.getPapersViaAuthor(this.searchQuery, this.currentPage, this.papersPerPage).subscribe({
       next: (response) => {
         this.papers = response.papers;
         this.totalPages = Math.ceil(response.totalPapers / this.papersPerPage);
       },
       error: (err) => {
         console.error('Error fetching papers by author:', err);
-        this.papers = []; // Clear list if error occurs
+        this.papers = [];
         alert('No papers found for the given author.');
       }
     });
+  }
+}
+
+// Function to handle search by title
+searchByTitle(): void {
+  if (this.searchOption === 'title') {
+    this.paperService.getPapersViaTitle(this.searchQuery, this.currentPage, this.papersPerPage).subscribe({
+      next: (response) => {
+        this.papers = response.papers;
+        this.totalPages = Math.ceil(response.totalPapers / this.papersPerPage);
+      },
+      error: (err) => {
+        console.error('Error fetching papers by title:', err);
+        this.papers = [];
+        alert('No papers found for the given title.');
+      }
+    });
+  }
+}
+
+
+  // Function to trigger the correct search based on the selected option
+  perfomSearch(): void {
+    if (this.searchOption === 'author') {
+      this.searchByAuthor();
+    } else if (this.searchOption === 'title') {
+      this.searchByTitle();
     }
+  }
 
   // This function listens for the Enter event and triggers the searchByAuthor function
   onKeyPress(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
-      this.searchByAuthor();
+      this.perfomSearch();
     }
+  }
+
+  resetSearch(): void {
+    this.searchQuery = '';
+    this.searchOption = 'author';
+    this.fetchPapers(); 
   }
 
 }
