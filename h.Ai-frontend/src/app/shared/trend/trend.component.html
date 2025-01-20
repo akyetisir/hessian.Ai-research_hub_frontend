@@ -35,10 +35,10 @@
         </div>
         
         <!-- Dropdown Content -->
-          <div class="dropdown-content" *ngIf="dropdown.isExpanded">
-          <app-paper-description></app-paper-description>
-          <app-paper-description></app-paper-description>
-          <app-paper-description></app-paper-description>
+        <div class="dropdown-content" *ngIf="dropdown.isExpanded">
+          <app-paper-description [paper]="dropdown.childContents[0]"></app-paper-description>
+          <app-paper-description [paper]="dropdown.childContents[1]"></app-paper-description>
+          <app-paper-description [paper]="dropdown.childContents[2]"></app-paper-description>
         </div>
       </div>       
     </div>

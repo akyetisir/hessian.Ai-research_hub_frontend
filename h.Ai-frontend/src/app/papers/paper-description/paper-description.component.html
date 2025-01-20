@@ -13,12 +13,16 @@
 
     <div class="description">
         <div class="container">
-            <div **ngIf="paper">
-                <h1>{{ paper?.title }}</h1>
-                <p><strong>Authors:</strong> {{ paper?.authors?.join(', ') }}</p>
-                <p><strong>Relevance Score:</strong> {{ paper?.relevance }}</p>
-                <p><strong>Tags:</strong> {{ paper?.tags }}</p>
-                <p><strong>Published Date:</strong> {{ paper?.date| date }}</p>
+            <div *ngIf="paper">
+                <h2>
+                    <a [routerLink]="['/paper', paper.title]" routerLinkActive="router-link-active" target="_blank">{{ paper.title }}</a>
+                    <!-- {{ paper.title }} -->
+                </h2>
+                <p><strong>Authors:</strong> {{ paper.authors.join(', ') }}</p>
+                <!-- <p><strong>Tags:</strong> {{ paper.tags }}</p> -->
+                <!-- <p><strong>Relevance Score:</strong> {{ paper.relevance }}</p> -->
+                <p><strong>Views:</strong> {{ paper.views }}</p>
+                <p><strong>Published Date:</strong> {{ paper.date| date }}</p>
             </div>    
         </div>
     </div>
