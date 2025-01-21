@@ -11,16 +11,20 @@
 </head>
 <body>
 
-    <div class="chat-box">
-        <div class="chat-header">
-          <h4>Ask a Question</h4>
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+          <h4>Ask the paper</h4>
         </div>
-        <div class="chat-body">
-          <p>Chat feature coming soon...</p>
-        </div>
-        <div class="chat-footer">
-          <input type="text" placeholder="Type your question..." disabled />
-          <button disabled>Send</button>
+        <!-- <div class="chat-body"> -->
+          <div class="chatbot-messages" #messagesContainer>
+            <div *ngFor="let message of messages" [ngClass]="{'user-message': message.sender === 'user', 'bot-message': message.sender === 'bot'}">
+              <p>{{ message.text }}</p>
+            </div>
+          </div>
+        <!-- </div> -->
+        <div class="chatbot-input">
+          <input type="text" [(ngModel)]="userMessage" (keydown.enter)="sendMessage()" placeholder="Write a message ..." />
+          <button (click)="sendMessage()">Senden</button>
         </div>
       </div>
       
