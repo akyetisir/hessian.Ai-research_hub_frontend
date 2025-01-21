@@ -41,11 +41,13 @@ export class PaperService {
   }
 
   // Get all papers
-  getAllPapers(page: number = 1, pageSize: number = 15): Observable<{ papers: Paper[], totalPapers: number }> {
+  getAllPapers(page: number = 1, pageSize: number = 15, sort:string = "", descending :boolean = true): Observable<{ papers: Paper[], totalPapers: number }> {
     return this.http.get<{ papers: any[], total_count: number }>(`${this.baseUrl}/papers/all`, {
       params: {
         page: page.toString(),
-        page_size: pageSize.toString()
+        page_size: pageSize.toString(),
+        sort: sort.toString(),
+        descending: descending.toString()
       }
     }).pipe(
       map(response => {
@@ -56,19 +58,16 @@ export class PaperService {
       })
     );
   }
-  
-
-
-
-
 
 
   // Get all papers by author name
-  getPapersViaAuthor(authorName: string, page: number = 1, pageSize: number = 15): Observable<{ papers: Paper[], totalPapers: number }> {
+  getPapersViaAuthor(authorName: string, page: number = 1, pageSize: number = 15, sort:string = "", descending :boolean = true): Observable<{ papers: Paper[], totalPapers: number }> {
     return this.http.get<{ total_count: number, papers: any[] }>(`${this.baseUrl}/papers/author/${encodeURIComponent(authorName)}`, {
       params: {
         page: page.toString(),
-        page_size: pageSize.toString()
+        page_size: pageSize.toString(),
+        sort: sort.toString(),
+        descending: descending.toString()
       }
     }).pipe(
       map(response => ({
@@ -79,11 +78,13 @@ export class PaperService {
   }
   
   // Get all papers by tag
-  getPapersViaTag(paperTag: string, page: number = 1, pageSize: number = 15): Observable<{ papers: Paper[], totalPapers: number }> {
+  getPapersViaTag(paperTag: string, page: number = 1, pageSize: number = 15, sort:string = "", descending :boolean = true): Observable<{ papers: Paper[], totalPapers: number }> {
     return this.http.get<{ total_count: number, papers: any[] }>(`${this.baseUrl}/papers/tag/${encodeURIComponent(paperTag)}`, {
       params: {
         page: page.toString(),
-        page_size: pageSize.toString()
+        page_size: pageSize.toString(),
+        sort: sort.toString(),
+        descending: descending.toString()
       }
     }).pipe(
       map(response => ({
@@ -95,11 +96,13 @@ export class PaperService {
   
 
   // Get all papers by title
-  getPapersViaTitle(paperTitle: string, page: number = 1, pageSize: number = 15): Observable<{ papers: Paper[], totalPapers: number }> {
+  getPapersViaTitle(paperTitle: string, page: number = 1, pageSize: number = 15, sort:string = "", descending :boolean = true): Observable<{ papers: Paper[], totalPapers: number }> {
     return this.http.get<{ total_count: number, papers: any[] }>(`${this.baseUrl}/papers/title/${encodeURIComponent(paperTitle)}`, {
       params: {
         page: page.toString(),
-        page_size: pageSize.toString()
+        page_size: pageSize.toString(),
+        sort: sort.toString(),
+        descending: descending.toString()
       }
     }).pipe(
       map(response => ({
@@ -111,11 +114,13 @@ export class PaperService {
   
 
   // Get all papers by ID
-  getPapersViaId(id: string, page: number = 1, pageSize: number = 15): Observable<{ papers: Paper[], totalPapers: number }> {
+  getPapersViaId(id: string, page: number = 1, pageSize: number = 15, sort:string = "", descending :boolean = true): Observable<{ papers: Paper[], totalPapers: number }> {
     return this.http.get<{ total_count: number, papers: any[] }>(`${this.baseUrl}/papers/id/${encodeURIComponent(id)}`, {
       params: {
         page: page.toString(),
-        page_size: pageSize.toString()
+        page_size: pageSize.toString(),
+        sort: sort.toString(),
+        descending: descending.toString()
       }
     }).pipe(
       map(response => ({
