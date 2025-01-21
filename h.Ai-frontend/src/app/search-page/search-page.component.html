@@ -30,12 +30,13 @@
     <ul>
         <li> <section id="search-bar">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" placeholder="Search by " [(ngModel)]="searchQuery" (keypress)="onKeyPress($event)" [maxlength]="500"/>
+            <input type="text" placeholder="Search by " [(ngModel)]="searchQuery" (keypress)="onKeyPress($event)" [maxlength]="1000"/>
             
             <!-- Search Dropdown -->
               <select [(ngModel)]="searchOption" class="search-select">
                 <option value="author">Author</option>
                 <option value="title">Title</option>
+                <option value="content">Content</option>
               </select>
               <i class="fa fa-chevron-down"></i>
         </section></li>

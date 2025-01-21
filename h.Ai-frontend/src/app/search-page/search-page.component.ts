@@ -199,6 +199,7 @@ export class SearchPageComponent implements OnInit {
   // Function to handle search
 // Function to handle search by author
 searchByAuthor(): void {
+  this.currentPage = 1;
   if (this.searchOption === 'author') {
     this.paperService.getPapersViaAuthor(this.searchQuery, this.currentPage, this.papersPerPage).subscribe({
       next: (response) => {
@@ -216,6 +217,7 @@ searchByAuthor(): void {
 
 // Function to handle search by title
 searchByTitle(): void {
+  this.currentPage = 1;
   if (this.searchOption === 'title') {
     this.paperService.getPapersViaTitle(this.searchQuery, this.currentPage, this.papersPerPage).subscribe({
       next: (response) => {
@@ -231,6 +233,23 @@ searchByTitle(): void {
   }
 }
 
+searchByContent(): void {
+  this.currentPage = 1;
+  if (this.searchOption === 'content') {
+    this.paperService.getPapersViaContent(this.searchQuery, this.currentPage, this.papersPerPage).subscribe({
+      next: (response) => {
+        this.papers = response.papers;
+        this.totalPages = Math.ceil(response.totalPapers / this.papersPerPage);
+      },
+      error: (err) => {
+        console.error('Error fetching papers by content:', err);
+        this.papers = [];
+        alert('No papers found for the given content.');
+      }
+    });
+  }
+}
+
 
   // Function to trigger the correct search based on the selected option
   perfomSearch(): void {
@@ -239,6 +258,8 @@ searchByTitle(): void {
       this.searchByAuthor();
     } else if (this.searchOption === 'title') {
       this.searchByTitle();
+    } else if (this.searchOption === 'content') {
+      this.searchByContent();
     }
   }
 

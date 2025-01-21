@@ -11,6 +11,6 @@ export interface Paper {
     views: number;
     pdfUrl: string;
     source: string;
-    citations: number;
+    content: string;
     image: string;
 }

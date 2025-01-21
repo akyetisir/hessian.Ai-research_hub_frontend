@@ -35,7 +35,7 @@ export class PaperService {
       views: data.views,
       pdfUrl: `${this.pdfBaseUrl}/${data.path || ''}`,
       source: data.journal || '',
-      citations: data.citations,
+      content: data.content || '',
       image: `${this.pdfBaseUrl}/${image_path || ''}`
     };
   }
@@ -129,6 +129,23 @@ export class PaperService {
       }))
     );
   }
+
+  // Get all papers by content
+  // Get all papers by content
+getPapersViaContent(contentQuery: string, page: number = 1, pageSize: number = 15): Observable<{ papers: Paper[], totalPapers: number }> {
+  return this.http.get<{ total_count: number, papers: any[] }>(`${this.baseUrl}/papers/content/${encodeURIComponent(contentQuery)}`, {
+    params: {
+      page: page.toString(),
+      page_size: pageSize.toString()
+    }
+  }).pipe(
+    map(response => ({
+      papers: response.papers.map((input) => this.mapToPaper(input)),
+      totalPapers: response.total_count
+    }))
+  );
+}
+
   
 
 }
