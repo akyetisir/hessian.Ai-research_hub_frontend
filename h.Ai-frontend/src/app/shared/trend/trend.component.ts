@@ -88,7 +88,7 @@ export class TrendComponent implements OnInit {
     // 1. Dropdown: HIGHEST RANKED PAPERS
     { icon: 'fa-solid fa-arrow-trend-up',
       heading : 'HIGHEST RANKED PAPERS',
-      isExpanded : false,
+      isExpanded : true,
       childContents : this.papersByRank
     },
     // 2. Dropdown: HOTTEST PAPERS
