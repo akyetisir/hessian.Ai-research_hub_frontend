@@ -25,7 +25,9 @@ export class TrendComponent implements OnInit {
 
   constructor (private paperService: PaperService) {}
   ngOnInit(): void {
-    
+    this.dropdown.forEach(dropdown => {
+      dropdown.isExpanded = false;
+    });
     this.fetchByRank()
     this.fetchByViews()
     this.fetchByDate()
@@ -106,6 +108,12 @@ export class TrendComponent implements OnInit {
   ];
 
   toggleDropdown(index: number) {
+    this.dropdown.forEach((dropdown, i) => {
+      if (i !== index) {
+        dropdown.isExpanded = false;
+      }
+    });
+
     this.dropdown[index].isExpanded = !this.dropdown[index].isExpanded;
     console.log('Dropdown toggled:', this.dropdown[index].isExpanded);
   }
