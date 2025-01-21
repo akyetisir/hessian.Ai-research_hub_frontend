@@ -41,11 +41,14 @@ export class PaperService {
   }
 
   // Get all papers
-  getAllPapers(page: number = 1, pageSize: number = 15): Observable<{ papers: Paper[], totalPapers: number }> {
+  getAllPapers(page: number = 1, pageSize: number = 15, sortOption: string, descending: boolean): Observable<{ papers: Paper[], totalPapers: number }> {
+    
     return this.http.get<{ papers: any[], total_count: number }>(`${this.baseUrl}/papers/all`, {
       params: {
         page: page.toString(),
-        page_size: pageSize.toString()
+        page_size: pageSize.toString(),
+        sort: sortOption,
+        descending: descending.toString()
       }
     }).pipe(
       map(response => {

@@ -22,25 +22,25 @@ import { HttpClientModule } from '@angular/common/http'; // Import HttpClientMod
 
 export class SearchPageComponent implements OnInit {
 
-
   papers: Paper[] = [];
+  currentPage = 1;
+  totalPages: number = 1;
+  papersPerPage: number = 15; 
+
   searchQuery: string = '';
-  
-  sortOption: string = 'Date (new to old)'; // Default criteria for sorting
+  searchOption: string = 'author'; // Default search by Author
+
+  // Default criteria for sorting
   sortOptions: string[] = [
     'Date (new to old)', 'Date (old to new)',
     'Views (high to low)', 'Views (low to high)',
     'Relevance'];
-  currentPage = 1;
-  totalPages: number = 1; // Initially set to 1
-  papersPerPage: number = 15; // Number of papers per page
-  filteredPapers: Paper[] = [];
-
-  searchOption: string = 'author'; // Default search by Author
-  authorQuery: any;
+  sortOption: string = this.sortOptions[0]; 
+  descending: boolean = true;
 
 
   // Filters
+  filteredPapers: Paper[] = [];
   filters: {
     selectedAreas: { [key: string]: boolean },
     selectedYears: { [key: string]: boolean },
@@ -50,8 +50,7 @@ export class SearchPageComponent implements OnInit {
     selectedYears: {},
     selectedViews: {}
   };
-
-   // filterState object to control visibility of filters
+  // filterState object to control visibility of filters
    filterState = {
     researchAreas: false,
     publishYear: false,
@@ -81,9 +80,6 @@ export class SearchPageComponent implements OnInit {
       return areaMatches && yearMatches && viewMatches;
     });
   
-    // Sort the filtered results
-    this.sortResults();
-    
     // After applying filters, reset to the first page
     this.currentPage = 1;
     this.totalPages = Math.ceil(this.filteredPapers.length / this.papersPerPage);
@@ -120,12 +116,11 @@ export class SearchPageComponent implements OnInit {
 
   // Function to fetch papers from the backend
   fetchPapers(): void {
-    this.paperService.getAllPapers(this.currentPage, this.papersPerPage).subscribe({
+    this.paperService.getAllPapers( this.currentPage, this.papersPerPage, this.sortOption, this.descending).subscribe({
       next: (data: { papers: Paper[], totalPapers: number }) => { // Receive totalPapers
         if (data.papers && data.papers.length > 0) {
           this.papers = data.papers; // Store the fetched papers in the papers array
           this.totalPages = Math.ceil(data.totalPapers / this.papersPerPage); // Calculate total pages based on totalPapers
-          this.sortResults();
           console.log('Papers fetched successfully:', this.papers);
         } else {
           console.log('No papers found.');
@@ -138,21 +133,29 @@ export class SearchPageComponent implements OnInit {
   }
 
 
-  // Function to sort all results
-  sortResults(): void {
-    if (this.sortOption === 'Date (new to old)') {
-      this.papers.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-    } else if (this.sortOption === 'Date (old to new)') {
-      this.papers.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-    } else if (this.sortOption === 'Views (high to low)') {
-      this.papers.sort((a, b) => b.views - a.views);
-    } else if (this.sortOption === 'Views (low to high)') {
-      this.papers.sort((a, b) => a.views - b.views);
-    } else if (this.sortOption === 'Relevance') {
-      this.papers.sort((a, b) => b.relevance - a.relevance);
+  
+  // Sorting function
+  sortPapers(): void {
+    if(this.sortOption === 'Date (new to old)') {
+      this.sortOption = 'date';
+      this.descending = true;
+    } else if(this.sortOption === 'Date (old to new)') {
+      this.sortOption = 'date';
+      this.descending = false;
+    } else if(this.sortOption === 'Views (high to low)') {
+      this.sortOption = 'views';
+      this.descending = true;
+    } else if(this.sortOption === 'Views (low to high)') {
+      this.sortOption = 'views';
+      this.descending = false;
+    } while(this.sortOption === 'Relevance') {
+      this.sortOption = 'relevance';
+      this.descending = true;
     }
-    console.log('Sorting by:', this.sortOption);
+    console.log('Sort option:', this.sortOption);
+    this.fetchPapers();
   }
+
 
 
   // Get the papers to display on the current page
@@ -168,10 +171,6 @@ export class SearchPageComponent implements OnInit {
       .filter(paper => paper.title.toLowerCase().includes(this.searchQuery.toLowerCase()));
   }
     
-
-
-
-
   previousPage() {
     if ( this.currentPage > 1) {
       this.currentPage--;
@@ -196,8 +195,7 @@ export class SearchPageComponent implements OnInit {
   }
 
 
-  // Function to handle search
-// Function to handle search by author
+// Function to handle search
 searchByAuthor(): void {
   if (this.searchOption === 'author') {
     this.paperService.getPapersViaAuthor(this.searchQuery, this.currentPage, this.papersPerPage).subscribe({
@@ -214,7 +212,6 @@ searchByAuthor(): void {
   }
 }
 
-// Function to handle search by title
 searchByTitle(): void {
   if (this.searchOption === 'title') {
     this.paperService.getPapersViaTitle(this.searchQuery, this.currentPage, this.papersPerPage).subscribe({
