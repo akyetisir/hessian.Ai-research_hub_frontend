@@ -274,6 +274,7 @@ searchByContent(): void {
     this.searchQuery = '';
     this.searchOption = 'author';
     this.currentPage = 1;
+    this.sortOption = 'Date (new to old)';
     this.fetchPapers(); 
   }
 
