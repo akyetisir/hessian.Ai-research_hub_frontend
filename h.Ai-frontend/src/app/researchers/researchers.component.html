@@ -22,56 +22,46 @@
     </div>
 
     <div class="team">
-        <div class="team-member">
-            <img src="https://hessian.ai/wp-content/uploads/2022/02/platzhalter-300x300.jpg" 
-            alt="placeholder"
-            style="filter: brightness(90%);">
-            <h3>Researcher 1</h3>
+        <div *ngFor="let researcher of researchers" class="team-member" (click)="showProfile(researcher)">
+            <img [src]="researcher.image_path" 
+                onerror="this.src='https://hessian.ai/wp-content/uploads/2022/02/platzhalter-300x300.jpg';"
+                style="filter: brightness(90%);">
+            <h3>{{ researcher.name }}</h3>
+            <!-- <p>H-Index: {{ researcher.h_index }}</p>
+            <p>Citations: {{ researcher.citations }}</p> -->
         </div>
-        <div class="team-member">
-            <img src="https://hessian.ai/wp-content/themes/hessianai/apple-touch-icon.png" alt="placeholder">
-            <h3>Researcher 2</h3>
-        </div>
-        <div class="team-member">
-            <img src="https://hessian.ai/wp-content/themes/hessianai/apple-touch-icon.png" alt="placeholder">
-            <h3>Researcher 3</h3>
-        </div>
-        <div class="team-member">
-            <img src="https://hessian.ai/wp-content/themes/hessianai/apple-touch-icon.png" alt="placeholder">
-            <h3>Researcher 4</h3>
-        </div>
-        <div class="team-member">
-            <img src="https://hessian.ai/wp-content/themes/hessianai/apple-touch-icon.png" alt="placeholder">
-            <h3>Researcher 5</h3>
-        </div>
-        <div class="team-member">
-            <img src="https://hessian.ai/wp-content/themes/hessianai/apple-touch-icon.png" alt="placeholder">
-            <h3>Researcher 6</h3>
-        </div>
-        <div class="team-member">
-            <img src="https://hessian.ai/wp-content/themes/hessianai/apple-touch-icon.png" alt="placeholder">
-            <h3>Researcher 7</h3>
-        </div>
-        <div class="team-member">
-            <img src="https://hessian.ai/wp-content/themes/hessianai/apple-touch-icon.png" alt="placeholder">
-            <h3>Researcher 8</h3>
-        </div>
-        <div class="team-member">
-            <img src="https://hessian.ai/wp-content/themes/hessianai/apple-touch-icon.png" alt="placeholder">
-            <h3>Researcher 9</h3>
-        </div>
-        <div class="team-member">
-            <img src="https://hessian.ai/wp-content/themes/hessianai/apple-touch-icon.png" alt="placeholder">
-            <h3>Researcher 10</h3>
-        </div>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="pagination">
+        <button (click)="prevPage()" [disabled]="currentPage === 1">
+            <i class="fa-solid fa-circle-arrow-left"></i> </button>
+        <span>Page {{ currentPage }}</span>
+        <button (click)="nextPage()" [disabled]="currentPage * pageSize >= totalResearchers">
+            <i class="fa-solid fa-circle-arrow-right"></i></button>
     </div>
 
   </div>
 
 
 
+
   <div class="bridge">
     <h1>Opportunities</h1>
+  </div>
+
+  <!-- Popup to display researcher infos -->
+  <div *ngIf="selectedResearcher" class="popup">
+    <div class="popup-content">
+      <span class="close-btn" (click)="closeProfile()">×</span>
+      <img [src]="selectedResearcher?.image_path" 
+        onerror="this.src='https://hessian.ai/wp-content/uploads/2022/02/platzhalter-300x300.jpg';" />
+      <h3>{{ selectedResearcher.name }}</h3>
+      <p>ID: {{ selectedResearcher.authorId }}</p>
+      <p>H-Index: {{ selectedResearcher.h_index }}</p>
+      <p>Citations: {{ selectedResearcher.citations }}</p>
+      <p>Highly Influential Citations: {{ selectedResearcher.highly_influential_citations }}</p>
+    </div>
   </div>
 
 

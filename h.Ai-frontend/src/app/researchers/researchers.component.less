@@ -32,7 +32,7 @@
     font-size: 20px;
     color: #edecfd;
     background-color: #6a39d2;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 5vw 0.5vw;
 
 
@@ -61,6 +61,14 @@
             margin-bottom: 10px;
         }
 
+        h3 {
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            font-size: 24px;
+            color: #6a39d2;
+        }
+
         p {
             display: center;
             font-size: 20px;
@@ -68,13 +76,94 @@
             text-align: center;
         }
     }
+}
+
+  /* Style the pagination */
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    font-family: 'Poppins', sans-serif;
+    color: #7a46eb;
+
+    button {
+      background: none; /* Remove background from buttons */
+      border: none; /* Remove button border */
+      cursor: pointer;
+      padding: 0;
+      outline: none;
+      position: relative;
+
+      i {
+        font-size: 24px; /* Size of the arrows */
+        color: #7a46eb;
+        transition: transform 0.3s, color 0.3s;
+      }
+
+      :hover i {
+        color: #6a39d2; /* Change color on hover */
+        transform: scale(1.2); /* Optional: Add a hover effect */
+      }
+    }
+    span {
+      font-size: 14px;
+      color: #36196d;
+    }
   }
+  
 
+  
 
+  .popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+  }
+  
+  .popup-content {
+    background: #fff;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    position: relative;
+    width: 300px;
+  }
+  
+  .popup-content img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 18px;
+    cursor: pointer;
+  }
 
 
   .bridge {
     padding-top: 5vw;
     width: 100%;
     height: 40%;
+    justify-content: center;
+    align-items: center;
+    text-align: center; 
+    
+    h1 {
+      margin: 0; 
+      width: 100%; 
+    }
   }
