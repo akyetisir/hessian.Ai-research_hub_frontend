@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>header</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+ <app-header></app-header>
+
+<!-- Main content -->  
+<div class="main-content">
+    <header>
+        <h2>Researchers</h2>
+    </header>
+
+    <div>
+        <h1>Get to know about our team hessian.AI</h1>
+    </div>
+
+    <div class="team">
+        <div *ngFor="let researcher of researchers" class="team-member" (click)="showProfile(researcher)">
+            <img [src]="researcher.image_path" 
+                onerror="this.src='https://hessian.ai/wp-content/uploads/2022/02/platzhalter-300x300.jpg';"
+                style="filter: brightness(90%);">
+            <h3>{{ researcher.name }}</h3>
+            <!-- <p>H-Index: {{ researcher.h_index }}</p>
+            <p>Citations: {{ researcher.citations }}</p> -->
+        </div>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="pagination">
+        <button (click)="prevPage()" [disabled]="currentPage === 1">
+            <i class="fa-solid fa-circle-arrow-left"></i> </button>
+        <span>Page {{ currentPage }}</span>
+        <button (click)="nextPage()" [disabled]="currentPage * pageSize >= totalResearchers">
+            <i class="fa-solid fa-circle-arrow-right"></i></button>
+    </div>
+
+  </div>
+
+
+
+
+  <div class="bridge">
+    <h1>Opportunities</h1>
+  </div>
+
+  <!-- Popup to display researcher infos -->
+  <div *ngIf="selectedResearcher" class="popup">
+    <div class="popup-content">
+      <span class="close-btn" (click)="closeProfile()">×</span>
+      <img [src]="selectedResearcher?.image_path" 
+        onerror="this.src='https://hessian.ai/wp-content/uploads/2022/02/platzhalter-300x300.jpg';" />
+      <h3>{{ selectedResearcher.name }}</h3>
+      <p>ID: {{ selectedResearcher.authorId }}</p>
+      <p>H-Index: {{ selectedResearcher.h_index }}</p>
+      <p>Citations: {{ selectedResearcher.citations }}</p>
+      <p>Highly Influential Citations: {{ selectedResearcher.highly_influential_citations }}</p>
+    </div>
+  </div>
+
+
+  <app-footer></app-footer>
+</body>
+</html>
