@@ -23,7 +23,7 @@
 
     <!-- Search bar -->
     <div class="search-container">
-      <input type="text" placeholder ="Search by name" [(ngModel)]="searchQuery" (keypress)="searchByName()" [maxlength]="1000"/>
+      <input type="text" placeholder ="Search by name" [(ngModel)]="searchQuery" (keypress)="onKeyPress($event)" [maxlength]="1000"/>
       <button (click)="searchByName()">Search</button>
       <button (click)="resetSearch()">Reset</button>
       
