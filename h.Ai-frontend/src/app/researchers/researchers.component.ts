@@ -21,18 +21,20 @@ export class ResearchersComponent {
   currentPage: number = 1;
   pageSize: number = 15;
   totalResearchers: number = 0;
+  totalPages: number = 0;
 
   constructor(private authorService: AuthorService) { }
 
   ngOnInit() {
-    this.loadResearchers(); // Load all researchers
+    this.fetchResearchers(); // Load all researchers
   }
 
-  loadResearchers() {
+  fetchResearchers() {
     this.authorService.getAllAuthors(this.currentPage, this.pageSize).subscribe({
       next: (response) => {
         this.researchers = response.authors;
         this.totalResearchers = response.total_count;
+        this.totalPages = Math.ceil(this.totalResearchers / this.pageSize);
       },
       error: (err) => console.error('Error fetching researchers:', err)
     });
@@ -51,14 +53,14 @@ export class ResearchersComponent {
     nextPage() {
       if (this.currentPage * this.pageSize < this.totalResearchers) {
         this.currentPage++;
-        this.loadResearchers();
+        this.fetchResearchers();
       }
     }
   
     prevPage() {
       if (this.currentPage > 1) {
         this.currentPage--;
-        this.loadResearchers();
+        this.fetchResearchers();
       }
     }
 

@@ -36,7 +36,7 @@
     <div class="pagination">
         <button (click)="prevPage()" [disabled]="currentPage === 1">
             <i class="fa-solid fa-circle-arrow-left"></i> </button>
-        <span>Page {{ currentPage }}</span>
+        <span>Page {{ currentPage }} of {{ totalPages }}</span>
         <button (click)="nextPage()" [disabled]="currentPage * pageSize >= totalResearchers">
             <i class="fa-solid fa-circle-arrow-right"></i></button>
     </div>
