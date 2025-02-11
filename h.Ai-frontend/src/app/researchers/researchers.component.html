@@ -21,6 +21,14 @@
         <h1>Get to know about our team hessian.AI</h1>
     </div>
 
+    <!-- Search bar -->
+    <div class="search-container">
+      <input type="text" placeholder ="Search by name" [(ngModel)]="searchQuery" (keypress)="searchByName()" [maxlength]="1000"/>
+      <button (click)="searchByName()">Search</button>
+      <button (click)="resetSearch()">Reset</button>
+      
+    </div>
+
     <div class="team">
         <div *ngFor="let researcher of researchers" class="team-member" (click)="showProfile(researcher)">
             <img [src]="researcher.image_path" 

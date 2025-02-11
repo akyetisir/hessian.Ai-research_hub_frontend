@@ -2,20 +2,25 @@ import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from "../shared/header/header.component";
 import { RouterOutlet, RouterModule, RouterLink } from '@angular/router';
 import { FooterComponent } from "../shared/footer/footer.component";
-import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Author } from '../shared/models/author.model';
 import { AuthorService } from '../services/author/author.service';
+import { HttpClientModule } from '@angular/common/http'; // Import HttpClientModule
 
 @Component({
   selector: 'app-researchers',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, CommonModule],
+  imports: [HeaderComponent, FooterComponent, FormsModule, CommonModule, NgFor, NgIf, HttpClientModule],
   templateUrl: './researchers.component.html',
   styleUrl: './researchers.component.less'
 })
 export class ResearchersComponent {
   researchers: Author[] = [];
   selectedResearcher: any = null;
+
+  // Search variables
+  searchQuery: string = '';
 
   // Pagination variables
   currentPage: number = 1;
@@ -49,6 +54,44 @@ export class ResearchersComponent {
     });
   }
 
+  searchByName() {
+    if (!this.searchQuery) {
+      this.fetchResearchers();
+      return;
+    }
+    this.currentPage = 1;
+    this.authorService.getAuthorByName(this.searchQuery).subscribe({
+      next: (data) => {
+        this.researchers = [data];
+        this.totalPages = 1;
+      },
+      error: (err) => {
+        console.error('Error fetching researcher by name:', err);
+        this.researchers = [];
+      }
+    });
+  }
+
+  perfomSearch(): void {
+    if(this.searchQuery === '') {
+      this.fetchResearchers();
+      return;
+    }
+    this.currentPage = 1;
+    this.searchByName();
+  }
+
+  onKeyPress(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      this.perfomSearch();
+    }
+  }
+
+  resetSearch() {
+    this.searchQuery = '';
+    this.currentPage = 1;
+    this.fetchResearchers();
+  }
 
 
   showProfile(researcher: Author) {
