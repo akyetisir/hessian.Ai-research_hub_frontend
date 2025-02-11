@@ -35,8 +35,17 @@ export class ResearchersComponent {
         this.researchers = response.authors;
         this.totalResearchers = response.total_count;
         this.totalPages = Math.ceil(this.totalResearchers / this.pageSize);
+        this.sortResearchers();
       },
       error: (err) => console.error('Error fetching researchers:', err)
+    });
+  }
+
+  sortResearchers() {
+    this.researchers.sort((a, b) => {
+      if (a.name < b.name) return -1;
+      else if (a.name > b.name) return 1;
+      else return 0;
     });
   }
 
