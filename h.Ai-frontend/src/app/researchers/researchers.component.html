@@ -21,23 +21,37 @@
         <h1>Get to know about our team hessian.AI</h1>
     </div>
 
+    <!-- Search bar -->
+    <div class="search-container">
+        <input type="text" [(ngModel)]="searchQuery" (keypress)="searchResearcher()" placeholder="Search by name">
+        <button (click)="searchResearcher()">Search</button>
+        <button (click)="resetSearch()">Reset</button>
+        
+      </div>
+      
+
+      
+
     <div class="team">
-        <div *ngFor="let researcher of researchers" class="team-member" (click)="showProfile(researcher)">
-            <img [src]="researcher.image_path" 
-                onerror="this.src='https://hessian.ai/wp-content/uploads/2022/02/platzhalter-300x300.jpg';"
-                style="filter: brightness(90%);">
-            <h3>{{ researcher.name }}</h3>
-            <!-- <p>H-Index: {{ researcher.h_index }}</p>
-            <p>Citations: {{ researcher.citations }}</p> -->
+        <div *ngIf="filteredResearchers.length > 0; else noResult">
+            <div *ngFor="let researcher of filteredResearchers" class="team-member" (click)="showProfile(researcher)">
+                <img [src]="researcher.image_path" 
+                    onerror="this.src='https://hessian.ai/wp-content/uploads/2022/02/platzhalter-300x300.jpg';"
+                    style="filter: brightness(90%);">
+                <h3>{{ researcher.name }}</h3>
+            </div>
         </div>
+        <ng-template #noResult>
+            <p style="font-family: 'Poppins',sans-serif; color: #eee;">No results found.</p>
+        </ng-template>
     </div>
 
     <!-- Pagination Controls -->
     <div class="pagination">
         <button (click)="prevPage()" [disabled]="currentPage === 1">
             <i class="fa-solid fa-circle-arrow-left"></i> </button>
-        <span>Page {{ currentPage }}</span>
-        <button (click)="nextPage()" [disabled]="currentPage * pageSize >= totalResearchers">
+        <span>Page {{ currentPage }} of {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages">
             <i class="fa-solid fa-circle-arrow-right"></i></button>
     </div>
 
