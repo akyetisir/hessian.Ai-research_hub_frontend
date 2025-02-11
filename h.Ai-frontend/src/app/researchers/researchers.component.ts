@@ -49,6 +49,8 @@ export class ResearchersComponent {
     });
   }
 
+
+
   showProfile(researcher: Author) {
     console.log('Selected Researcher:', researcher);
     this.selectedResearcher = researcher;
@@ -64,6 +66,7 @@ export class ResearchersComponent {
         this.currentPage++;
         this.fetchResearchers();
       }
+      this.scrollToTop();
     }
   
     prevPage() {
@@ -71,6 +74,14 @@ export class ResearchersComponent {
         this.currentPage--;
         this.fetchResearchers();
       }
+      this.scrollToTop();
+    }
+
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth' // Smooth scroll to top
+      });
     }
 
 }
