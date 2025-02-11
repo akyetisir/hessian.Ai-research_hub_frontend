@@ -12,6 +12,7 @@ export const routes: Routes = [
     { path: 'home', component: HomepageComponent },        // Route for Homepage
     { path: 'search', component: SearchPageComponent },    // Route for Search-page
     { path: 'paper/:title', component: PaperDisplayComponent},      // Route for Paper Details
-    { path: 'researchers', component: ResearchersComponent}, // Route for Researchers
+    { path: 'researchers', component: ResearchersComponent },
+    { path: 'search/:researcherName', component: SearchPageComponent }, // Search by Researcher Name
     { path: '**', redirectTo: '/home' }                    // Navigation to Homepage if there is no route
 ];

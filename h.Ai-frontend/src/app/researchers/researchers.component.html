@@ -69,6 +69,14 @@
       <p>H-Index: {{ selectedResearcher.h_index }}</p>
       <p>Citations: {{ selectedResearcher.citations }}</p>
       <p>Highly Influential Citations: {{ selectedResearcher.highly_influential_citations }}</p>
+      <p>
+      <a [routerLink]="['/search', selectedResearcher.name]" 
+      routerLinkActive="router-link-active" 
+      target="_blank" 
+      [queryParams]="{ searchOption: 'Author', searchQuery: selectedResearcher.name }">
+        View all papers of this author <i class="fa-solid fa-arrow-right"></i>
+      </a>
+      </p>
     </div>
   </div>
 

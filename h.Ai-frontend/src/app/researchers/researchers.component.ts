@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from "../shared/header/header.component";
-import { RouterOutlet, RouterModule, RouterLink } from '@angular/router';
+import { RouterOutlet, RouterModule, RouterLink, ActivatedRoute } from '@angular/router';
 import { FooterComponent } from "../shared/footer/footer.component";
 import { FormsModule } from '@angular/forms';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Author } from '../shared/models/author.model';
 import { AuthorService } from '../services/author/author.service';
 import { HttpClientModule } from '@angular/common/http'; // Import HttpClientModule
+import { SearchPageComponent } from '../search-page/search-page.component';
 
 @Component({
   selector: 'app-researchers',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, FormsModule, CommonModule, NgFor, NgIf, HttpClientModule],
+  imports: [HeaderComponent, FooterComponent, RouterModule, FormsModule, CommonModule, NgFor, NgIf, HttpClientModule],
   templateUrl: './researchers.component.html',
   styleUrl: './researchers.component.less'
 })
@@ -28,10 +29,20 @@ export class ResearchersComponent {
   totalResearchers: number = 0;
   totalPages: number = 0;
 
-  constructor(private authorService: AuthorService) { }
+  constructor(private authorService: AuthorService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.fetchResearchers(); // Load all researchers
+
+    this.route.queryParams.subscribe(params => {
+      this.searchQuery = params['searchQuery'] || '';
+      const searchOption = params['searchOption'] || '';
+  
+      if (searchOption === 'Author' && this.searchQuery) {
+        this.searchAuthorPapers(this.searchQuery);
+      } else {
+        this.fetchResearchers();
+      }
+    });
   }
 
   fetchResearchers() {
@@ -101,6 +112,11 @@ export class ResearchersComponent {
 
   closeProfile() {
     this.selectedResearcher = null;
+  }
+
+  searchAuthorPapers(authorName: string) {
+    // Navigate to search page with author name as query parameter
+   
   }
 
     // Pagination controls
