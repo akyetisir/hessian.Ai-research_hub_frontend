@@ -65,18 +65,17 @@
       <img [src]="selectedResearcher?.image_path" 
         onerror="this.src='https://hessian.ai/wp-content/uploads/2022/02/platzhalter-300x300.jpg';" />
       <h3>{{ selectedResearcher.name }}</h3>
-      <p>ID: {{ selectedResearcher.authorId }}</p>
       <p>H-Index: {{ selectedResearcher.h_index }}</p>
       <p>Citations: {{ selectedResearcher.citations }}</p>
       <p>Highly Influential Citations: {{ selectedResearcher.highly_influential_citations }}</p>
-      <p>
+      <!-- <p>
       <a [routerLink]="['/search', selectedResearcher.name]" 
       routerLinkActive="router-link-active" 
       target="_blank" 
       [queryParams]="{ searchOption: 'Author', searchQuery: selectedResearcher.name }">
         View all papers of this author <i class="fa-solid fa-arrow-right"></i>
       </a>
-      </p>
+      </p> -->
     </div>
   </div>
 

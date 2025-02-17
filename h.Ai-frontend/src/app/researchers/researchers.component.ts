@@ -70,11 +70,11 @@ export class ResearchersComponent {
       this.fetchResearchers();
       return;
     }
-    this.currentPage = 1;
     this.authorService.getAuthorByName(this.searchQuery).subscribe({
       next: (data) => {
         this.researchers = [data];
         this.totalPages = 1;
+        this.currentPage = 1;
       },
       error: (err) => {
         console.error('Error fetching researcher by name:', err);
