@@ -8,6 +8,7 @@ export interface Paper {
     relevance: number;
     tags: string[];
     abstract: string;
+    citations: number;
     views: number;
     pdfUrl: string;
     source: string;

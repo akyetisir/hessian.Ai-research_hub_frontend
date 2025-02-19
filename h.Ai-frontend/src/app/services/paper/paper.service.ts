@@ -32,6 +32,7 @@ export class PaperService {
       relevance: data.relevance,
       tags: data.tags || [],
       abstract: data.abstract,
+      citations: data.citations,
       views: data.views,
       pdfUrl: `${this.pdfBaseUrl}/${data.path || ''}`,
       source: data.journal || '',

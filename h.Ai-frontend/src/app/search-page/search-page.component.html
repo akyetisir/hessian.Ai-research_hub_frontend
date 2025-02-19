@@ -108,9 +108,17 @@
                   <a [routerLink]="['/paper', paper.title]" routerLinkActive="router-link-active" target="_blank">{{ paper.title }}</a>
                 </h3>
                 <p><strong>Category:</strong> {{ paper.tags.join(', ') }}</p>
-                <p><strong>Authors:</strong> {{ paper.authors.join(', ') }}</p>
+                <p><strong>Authors:</strong>
+                  <span *ngFor="let author of paper.authors; let last = last">
+                    <span [ngClass]="{'bold-author': isTeamMember(author)}">
+                      {{ author }}
+                    </span>
+                    <span *ngIf="!last">, </span>
+                  </span>
+                </p>
                 <p><strong>Year:</strong> {{ paper.date | date: 'yyyy' }}</p>
                 <p><strong>Views:</strong> {{ paper.views }}</p>
+                <p><strong>Relevance:</strong> {{ paper.relevance }}</p>
               </div>
               <img [src]="paper?.image" width="150px" height="150px" onerror="this.src='https://hessian.ai/wp-content/themes/hessianai/apple-touch-icon.png';" />
             </div>

@@ -40,6 +40,12 @@
           <p><strong>Authors: </strong>{{ paper?.authors?.join(', ') }}</p>  
         </div>
       </li>
+
+      <li> 
+        <div class="paper-citations">
+          <p><strong>Citations: </strong>{{ paper?.citations }}</p>  
+        </div>
+      </li>
   
       <!-- <li>
         <div class="paper-summary">
@@ -49,13 +55,13 @@
 
       <li> 
         <div class="paper-views">
-          <p> {{ paper?.views }} <i class="fa-solid fa-eye"></i></p>  
+          <p><strong>Views: </strong> {{ paper?.views }} <i class="fa-solid fa-eye"></i></p>  
         </div>
       </li>
 
       <li> 
         <div class="paper-score">
-          <p> {{ paper?.relevance }} <i class="fa-solid fa-star"></i></p>  
+          <p><strong>Relevance: </strong> {{ paper?.relevance }} <i class="fa-solid fa-star"></i></p>  
         </div>
       </li>
       

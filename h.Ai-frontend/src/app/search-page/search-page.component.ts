@@ -7,6 +7,8 @@ import { FooterComponent } from "../shared/footer/footer.component";
 import { PaperService } from '../services/paper/paper.service';
 import { Paper } from '../shared/models/paper.model';
 import { PaperDescriptionComponent } from '../papers/paper-description/paper-description.component';
+import { Author } from '../shared/models/author.model';
+import { AuthorService } from '../services/author/author.service';
 import { HttpClientModule } from '@angular/common/http'; // Import HttpClientModule
 
 
@@ -38,6 +40,8 @@ export class SearchPageComponent implements OnInit {
 
   searchOption: string = 'author'; // Default search by Author
   authorQuery: any;
+
+  teamMembers: Author[] = [];
 
 
   // Filters
@@ -112,7 +116,7 @@ export class SearchPageComponent implements OnInit {
   
 
 
-  constructor (private paperService: PaperService) {}
+  constructor (private paperService: PaperService, private authorService: AuthorService) {}
   ngOnInit(): void {
     this.fetchPapers();
     console.log(this.papers);
@@ -167,9 +171,26 @@ export class SearchPageComponent implements OnInit {
     return this.papers
       .filter(paper => paper.title.toLowerCase().includes(this.searchQuery.toLowerCase()));
   }
-    
+  
+  fetchTeamMembers(): void {
+    this.authorService.getAllAuthors().subscribe(
+      (data: { authors: Author[] }) => {
+        this.teamMembers = data.authors;
+      },
+      (err) => {
+        console.error('Error fetching team members:', err);
+      }
+    );
+  }
 
-
+  isTeamMember(author: string): boolean {
+    for (const member of this.teamMembers) {
+      if (member.name === author) {
+        return true;
+      }
+    }
+    return false;    
+  }
 
 
   previousPage() {
