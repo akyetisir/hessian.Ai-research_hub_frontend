@@ -37,7 +37,14 @@
         
       <li> 
         <div class="paper-author">
-          <p><strong>Authors: </strong>{{ paper?.authors?.join(', ') }}</p>  
+          <p><strong>Authors: </strong>
+          <span *ngFor="let author of paper?.authors; let last = last">
+            <span [ngClass]="{'bold-author': isTeamMember(author)}">
+              {{author}}
+            </span>
+            <span *ngIf="!last">, </span>
+          </span>
+          </p>  
         </div>
       </li>
 

@@ -10,6 +10,9 @@ import { ChatBoxComponent } from '../../chat-box/chat-box.component';
 import { PaperService } from '../../services/paper/paper.service';
 import { Paper } from '../../shared/models/paper.model';
 
+import { Author } from '../../shared/models/author.model';
+import { AuthorService } from '../../services/author/author.service';
+
 
 @Component({
   selector: 'app-paper-display',
@@ -18,7 +21,7 @@ import { Paper } from '../../shared/models/paper.model';
     CommonModule,
     HeaderComponent,
     FooterComponent,
-    ChatBoxComponent
+    ChatBoxComponent,
   ],
   templateUrl: './paper-display.component.html',
   styleUrls: ['./paper-display.component.less']   // Falls du hier "styleUrl" hattest, sollte es "styleUrls" heißen
@@ -26,6 +29,7 @@ import { Paper } from '../../shared/models/paper.model';
 export class PaperDisplayComponent implements OnInit {
 
   paper: Paper | null = null;
+  teamMembers: Author[] = [];
 
   // Hier speichern wir die „entschärfte“ URL fürs Iframe
   sanitizedPdfUrl: SafeResourceUrl | null = null;
@@ -35,10 +39,11 @@ export class PaperDisplayComponent implements OnInit {
     private route: ActivatedRoute,
     private paperService: PaperService,
     private sanitizer: DomSanitizer,   // <-- Wichtig für das Umgehen von NG0904
-
+    private authorService: AuthorService
   ) {}
 
   ngOnInit(): void {
+    this.fetchTeamMembers();
     const title = this.route.snapshot.paramMap.get('title');
     if (title) {
       this.paperService.getPapersViaTitle(title).subscribe(
@@ -67,5 +72,27 @@ export class PaperDisplayComponent implements OnInit {
         }
       );
     }
+  }
+
+  // This function fetches all team members from the server
+  fetchTeamMembers(): void {
+    this.authorService.getAllAuthors().subscribe(
+      (data: { authors: Author[] }) => {
+        this.teamMembers = data.authors;
+        console.log('Team members:', this.teamMembers);
+      },
+      (err) => {
+        console.error('Error fetching team members:', err);
+      }
+    );
+  }
+
+  isTeamMember(author: string): boolean {
+    for (const member of this.teamMembers) {
+      if (member.name === author) {
+        return true;
+      }
+    }
+    return false;    
   }
 }
