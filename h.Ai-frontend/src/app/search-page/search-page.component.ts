@@ -120,6 +120,8 @@ export class SearchPageComponent implements OnInit {
   ngOnInit(): void {
     this.fetchPapers();
     console.log(this.papers);
+    this.fetchTeamMembers();
+    console.log(this.teamMembers);
   }
 
   // Function to fetch papers from the backend
@@ -176,6 +178,7 @@ export class SearchPageComponent implements OnInit {
     this.authorService.getAllAuthors().subscribe(
       (data: { authors: Author[] }) => {
         this.teamMembers = data.authors;
+        console.log('Team members:', this.teamMembers);
       },
       (err) => {
         console.error('Error fetching team members:', err);
