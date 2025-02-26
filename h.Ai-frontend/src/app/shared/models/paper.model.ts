@@ -14,4 +14,5 @@ export interface Paper {
     source: string;
     content: string;
     image: string;
+    is_hess_paper: string;
 }

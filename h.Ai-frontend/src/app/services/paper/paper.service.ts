@@ -37,7 +37,8 @@ export class PaperService {
       pdfUrl: `${this.pdfBaseUrl}/${data.path || ''}`,
       source: data.journal || '',
       content: data.content || '',
-      image: `${this.pdfBaseUrl}/${image_path || ''}`
+      image: `${this.pdfBaseUrl}/${image_path || ''}`,
+      is_hess_paper: data.is_hess_paper
     };
   }
 
