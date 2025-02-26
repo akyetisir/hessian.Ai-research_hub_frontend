@@ -84,6 +84,29 @@
         <a href="https://www.google.com"><strong>Ask a question...? (link demo: Google) </strong> </a>
         </div>
     </li> -->
+
+    <li>
+      <div class="paper-flag"         
+      #tooltip="matTooltip"
+      [matTooltip]="flagData.tooltip"
+      matTooltipHideDelay="100000">
+        <i [class]="flagData.icon"></i>
+      </div>
+    </li>
+
+    <li>
+      <div class="example-container" cdkScrollable>
+        <button mat-raised-button #tooltip="matTooltip"
+                matTooltip="Info about the action"
+                matTooltipPosition="below"
+                matTooltipHideDelay="100000"
+                aria-label="Button that displays a tooltip that hides when scrolled out of the container"
+                class="example-button">
+          Action
+        </button>
+      </div>
+    </li>
+
     </ul>
   </nav>
   

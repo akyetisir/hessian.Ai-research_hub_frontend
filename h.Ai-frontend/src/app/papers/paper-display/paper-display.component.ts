@@ -13,6 +13,9 @@ import { Paper } from '../../shared/models/paper.model';
 import { Author } from '../../shared/models/author.model';
 import { AuthorService } from '../../services/author/author.service';
 
+import { MatTooltipModule} from '@angular/material/tooltip';
+import {MatButtonModule} from '@angular/material/button';
+
 
 @Component({
   selector: 'app-paper-display',
@@ -22,6 +25,8 @@ import { AuthorService } from '../../services/author/author.service';
     HeaderComponent,
     FooterComponent,
     ChatBoxComponent,
+    MatTooltipModule,
+    MatButtonModule
   ],
   templateUrl: './paper-display.component.html',
   styleUrls: ['./paper-display.component.less']   // Falls du hier "styleUrl" hattest, sollte es "styleUrls" heißen
@@ -30,6 +35,8 @@ export class PaperDisplayComponent implements OnInit {
 
   paper: Paper | null = null;
   teamMembers: Author[] = [];
+
+  flagData = {"tooltip": "", "icon":""}
 
   // Hier speichern wir die „entschärfte“ URL fürs Iframe
   sanitizedPdfUrl: SafeResourceUrl | null = null;
@@ -51,6 +58,7 @@ export class PaperDisplayComponent implements OnInit {
           const data = response.papers[0] || null;
           if (data) {
             this.paper = data;
+            this.setFlagData(data.is_hess_paper)
 
             if (data.pdfUrl) {
               this.sanitizedPdfUrl = this.sanitizer
@@ -94,5 +102,26 @@ export class PaperDisplayComponent implements OnInit {
       }
     }
     return false;    
+  }
+
+
+  setFlagData(is_hess_paper: string): void{
+    // should never be seen as these papers should not be shown 
+    if (is_hess_paper === "no_verified") {
+      this.flagData.tooltip = "This paper was marked not to be a hessian.ai paper"
+      this.flagData.icon = 'fa-solid top fa-brain fa-fw'
+    }
+    else if (is_hess_paper === "yes_verified") {
+      this.flagData.tooltip = "This paper is verified as a hessian.ai paper"
+      this.flagData.icon = 'fa-solid top fa-brain fa-fw'
+    }
+    else if (is_hess_paper === "most_probably_a_hess_paper") {
+      this.flagData.tooltip = "This paper is not verified and might not be a hessian.ai paper. Click here to verify or mark as a non hessian.ai paper"
+      this.flagData.icon = 'fa-solid top fa-brain fa-fw'
+    }
+    else if (is_hess_paper === "maybe_not_a_hess_paper") {
+      this.flagData.tooltip = "This paper is not verified and might not be a hessian.ai paper. Click here to verify or mark as a non hessian.ai paper"
+      this.flagData.icon = 'fa-solid top fa-brain fa-fw'
+    }
   }
 }

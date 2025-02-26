@@ -80,6 +80,54 @@ nav {
   .bold-author {
     font-weight: bold;
   }
+
+  .paper-flag {
+    border-radius: 10px;
+    padding: 10px;
+        
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    &:hover {
+          transform: scale(1.05); // Phóng to nhẹ khi hover
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); // Đổ bóng
+    }
+    
+    i {
+        font-size: 14px;                                 
+        color: #edecfd;  
+        margin-top: 10px;                
+        margin-bottom: 5px;          
+      }
+    
+    p {
+        margin-top: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #edecfd;
+    }
+
+    .example-button {
+      display: block;
+      margin: 80px auto 400px;
+    }
+    
+    .example-container {
+      height: 200px;
+      overflow: auto;
+      border: 1px solid #ccc;
+      
+      ::ng-deep .cdk-overlay-container {
+        z-index: 9999;
+     } 
+    }
+    ::ng-deep .cdk-overlay-container {
+      z-index: 9999;
+   }   
+}
+::ng-deep .cdk-overlay-container {
+  z-index: 9999;
+} 
   
 }
 
