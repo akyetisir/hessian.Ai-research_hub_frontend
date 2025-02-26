@@ -52,7 +52,7 @@
         <!-- Filters Section -->
         <div class="filters">
           <h4>Publish Year</h4>
-          <select [(ngModel)]="filterYears" (change)="onFilterChange()" >
+          <select [(ngModel)]="filterYears" (change)="onFilterChange()" multiple>
             <option value="">Publish Year</option>
             <option *ngFor="let year of ['2020', '2021', '2022', '2023', '2024', '2025']" [value]="year">{{ year }}</option>
           </select>
