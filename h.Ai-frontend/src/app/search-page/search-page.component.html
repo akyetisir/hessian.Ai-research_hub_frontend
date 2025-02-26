@@ -50,46 +50,38 @@
 
 
         <!-- Filters Section -->
-       
-        <!-- Filter: Citations -->
         <div class="filters">
-          <h4 (click)="toggleFilter('citations')">
-            Citations <i class="fa fa-chevron-down"></i>
-          </h4>
-          <ul *ngIf="filterState.citations">
-            <li *ngFor="let area of citationsOptions">
-              <input type="checkbox" [(ngModel)]="filters.selectedCitations[area]" (change)="applyFilters()" />
-              {{ area }}
-            </li>
-          </ul>
+          <h4>Publish Year</h4>
+          <select [(ngModel)]="filterYears" (change)="onFilterChange()" >
+            <option value="">Publish Year</option>
+            <option *ngFor="let year of ['2020', '2021', '2022', '2023', '2024', '2025']" [value]="year">{{ year }}</option>
+          </select>
         </div>
 
-        <!-- Filter: Publish Year -->
         <div class="filters">
-          <h4 (click)="toggleFilter('publishYear')">
-            Publish Year <i class="fa fa-chevron-down"></i>
-          </h4>
-          <ul *ngIf="filterState.publishYear">
-            <li *ngFor="let year of publishYears">
-              <input type="checkbox" [(ngModel)]="filters.selectedYears[year]" (change)="applyFilters()" />
-              {{ year }}
-            </li>
-          </ul>
+          <h4>Views</h4>
+          <mat-slider min="200" max="500">
+            <input value="300" matSliderStartThumb>
+            <input value="400" matSliderEndThumb>
+          </mat-slider>
+          <span>Min: {{ minViews }} - Max: {{ maxViews }}</span>
         </div>
-
-        <!-- Filter: Views -->
+        
         <div class="filters">
-          <h4 (click)="toggleFilter('views')">
-            Views <i class="fa fa-chevron-down"></i>
-          </h4>
-          <ul *ngIf="filterState.views">
-            <li *ngFor="let view of viewsOptions">
-              <input type="checkbox" [(ngModel)]="filters.selectedViews[view]" (change)="applyFilters()" />
-              {{ view }}
-            </li>
-          </ul>
+          <h4>Citations</h4>
+          <mat-slider
+            min="0"
+            max="10000"
+            step="1"
+            [(ngModel)]="minCitations"
+            (change)="applyFilters()"
+            thumbLabel
+            tickInterval="500"
+            [displayWith]="formatLabel">
+          </mat-slider>
+          <span>Min: {{ minCitations }} - Max: {{ maxCitations }}</span>
         </div>
-
+        
 
 
     </ul>

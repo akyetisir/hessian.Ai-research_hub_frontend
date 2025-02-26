@@ -3,6 +3,8 @@ import { HeaderComponent } from "../shared/header/header.component";
 import { RouterOutlet, RouterModule, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
+import {MatSliderModule} from '@angular/material/slider';
+
 import { FooterComponent } from "../shared/footer/footer.component";
 import { PaperService } from '../services/paper/paper.service';
 import { Paper } from '../shared/models/paper.model';
@@ -16,7 +18,7 @@ import { HttpClientModule } from '@angular/common/http'; // Import HttpClientMod
 @Component({
   selector: 'app-search-page',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterModule, 
+  imports: [RouterOutlet, RouterLink, RouterModule, MatSliderModule, 
     HeaderComponent, FormsModule, NgIf, NgFor, CommonModule, FooterComponent, PaperDescriptionComponent,HttpClientModule],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.less'
@@ -43,101 +45,42 @@ export class SearchPageComponent implements OnInit {
 
   teamMembers: Author[] = [];
 
+  filterYears: string[] = [];
+  minViews: number = 0;
+  maxViews: number = 100000;
+  minCitations: number = 0;
+  maxCitations: number = 100000;
 
   // Filters
-  filters: {
-    selectedCitations: { [key: string]: boolean },
-    selectedYears: { [key: string]: boolean },
-    selectedViews: { [key: string]: boolean }
-  } = {
-    selectedCitations: {},
-    selectedYears: {},
-    selectedViews: {}
-  };
 
-   // filterState object to control visibility of filters
-   filterState = {
-    citations: false,
-    publishYear: false,
-    views: false
-  };
-
-
-  // Methods for toggle behavior of filter sections
-  toggleFilter(filter: keyof typeof this.filterState): void {
-    // Toggle the boolean value of the corresponding filter state
-    this.filterState[filter] = !this.filterState[filter];
-  }
-  
-
-  applyFilters(): void {
-    let params: any = {};
-
-    // Filter the papers based on the selected years
-    const selectedYears = Object.keys(this.filters.selectedYears).filter(year => this.filters.selectedYears[year]);
-    if (selectedYears.length > 0) {
-      params.year = selectedYears;
-    }
-
-
-    // Function to get the range of views and citations
-    const range = (option: string) => {
-      if (option === 'Under 10') return { min: 0, max: 9 };
-      if (option === '10 to 100') return { min: 10, max: 100 };
-      if (option === '100 to 500') return { min: 100, max: 500 };
-      if (option === '500 to 1000') return { min: 500, max: 1000 };
-      if (option === 'Over 1000') return { min: 1001, max: Infinity };
-      return null;
-    };
-    // Filter the papers based on the selected views
-    const selectedViews = this.viewsOptions.filter(view => this.filters.selectedViews[view]);
-    if (selectedViews.length > 0) {
-      const ranges = selectedViews.map(range);
-      params.min_views = Math.min(...ranges.map(r => r ? r.min : Infinity));
-      params.max_views = Math.max(...ranges.map(r => r ? r.max : -Infinity));
-    }
-    // Filter the papers based on the selected citations
-    const selectedCitations = Object.keys(this.filters.selectedCitations).filter(citation => this.filters.selectedCitations[citation]);
-    if (selectedCitations.length > 0) {
-      const ranges = selectedCitations.map(range);
-      params.min_citations = Math.min(...ranges.map(r => r ? r.min : Infinity));
-      params.max_citations = Math.max(...ranges.map(r => r ? r.max : -Infinity));
-    }
-    
-    console.log('Filter params:', params);
-  
-    // Sort the filtered results
-    this.sortResults();
-    
-    // After applying filters, reset to the first page
-    this.currentPage = 1;
-    this.totalPages = Math.ceil(this.filteredPapers.length / this.papersPerPage);
-    
+  applyFilters() {
+    this.filteredPapers = this.papers.filter(paper => 
+      paper.views >= this.minViews && paper.views <= this.maxViews &&
+      paper.citations >= this.minCitations && paper.citations <= this.maxCitations
+    );
+    this.fetchPapers();
   }
 
+  formatLabel(value: number): string {
+    return value.toLocaleString();
+  }
 
+  onFilterChange(): void {
+    this.applyFilters();
+  }  
   
   
   resetFilters(): void {
-    this.filters.selectedCitations = {};
-    this.filters.selectedYears = {};
-    this.filters.selectedViews = {};
-    this.applyFilters(); // Reapply filter to update the results
+      this.filterYears = [];
+      this.minViews = 0;
+      this.maxViews = Infinity;
+      this.minCitations = 0;
+      this.maxCitations = Infinity;
+      this.applyFilters();
   }
 
-  // researchAreas = [
-  //   'Machine Learning', '(Probabilistic) Deep Learning', 'Statistical Relational AI', 
-  //   'Computer Vision', 'Natural Language Processing', 'Robotics', 'Models of Higher Cognition',
-  //   'Psychology of Information Processing', 'Database Systems', 'Software Engineering', 
-  //   'Distributed Systems', 'Hardware', 'Bioinformatics', 'Semantic Web', 'Sustainability',
-  //   'Medicine', 'Finance', 'Multimodal AI'
-  // ];
 
-  publishYears = ['2020', '2021', '2022', '2023', '2024', '2025'];
   
-  viewsOptions = ['Under 10', '10 to 100', '100 to 500', '500 to 1000', 'Over 1000'];
-  
-  citationsOptions = ['Under 10', '10 to 100', '100 to 500', '500 to 1000', 'Over 1000']; 
   
 
 
@@ -151,7 +94,7 @@ export class SearchPageComponent implements OnInit {
 
   // Function to fetch papers from the backend
   fetchPapers(): void {
-    this.paperService.getAllPapers(this.currentPage, this.papersPerPage).subscribe({
+    this.paperService.getAllPapers(this.currentPage, this.papersPerPage, '', true, this.filterYears.map(Number), this.minViews, this.maxViews, this.minCitations, this.maxCitations).subscribe({
       next: (data: { papers: Paper[], totalPapers: number }) => { // Receive totalPapers
         if (data.papers && data.papers.length > 0) {
           this.papers = data.papers; // Store the fetched papers in the papers array
@@ -172,15 +115,15 @@ export class SearchPageComponent implements OnInit {
   // Function to sort all results
   sortResults(): void {
     if (this.sortOption === 'Date (new to old)') {
-      this.papers.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      this.filteredPapers.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     } else if (this.sortOption === 'Date (old to new)') {
-      this.papers.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+      this.filteredPapers.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
     } else if (this.sortOption === 'Views (high to low)') {
-      this.papers.sort((a, b) => b.views - a.views);
+      this.filteredPapers.sort((a, b) => b.views - a.views);
     } else if (this.sortOption === 'Views (low to high)') {
-      this.papers.sort((a, b) => a.views - b.views);
+      this.filteredPapers.sort((a, b) => a.views - b.views);
     } else if (this.sortOption === 'Relevance') {
-      this.papers.sort((a, b) => b.relevance - a.relevance);
+      this.filteredPapers.sort((a, b) => b.relevance - a.relevance);
     }
     console.log('Sorting by:', this.sortOption);
   }
@@ -192,7 +135,7 @@ export class SearchPageComponent implements OnInit {
     const endIndex = startIndex + this.papersPerPage;
     const papersToDisplay = this.filteredPapers.length > 0 ? this.filteredPapers : this.papers;
     console.log('Displayed papers:', papersToDisplay); // Log displayed papers
-    return this.papers;
+    return this.filteredPapers.length > 0 ? this.filteredPapers : this.papers;
   }
   get searchedPapers() {
     return this.papers

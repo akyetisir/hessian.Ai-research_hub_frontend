@@ -42,13 +42,20 @@ export class PaperService {
   }
 
   // Get all papers
-  getAllPapers(page: number = 1, pageSize: number = 15, sort:string = "", descending :boolean = true): Observable<{ papers: Paper[], totalPapers: number }> {
+  getAllPapers(page: number = 1, pageSize: number = 15, sort:string = "", descending :boolean = true, 
+    filterYears: number[] = [], minViews: number = 0, maxViews: number = Infinity, minCitations: number = 0, maxCitations: number = Infinity)
+    : Observable<{ papers: Paper[], totalPapers: number }> {
     return this.http.get<{ papers: any[], total_count: number }>(`${this.baseUrl}/papers/all`, {
       params: {
         page: page.toString(),
         page_size: pageSize.toString(),
         sort: sort.toString(),
-        descending: descending.toString()
+        descending: descending.toString(),
+        min_views: minViews.toString(),
+        max_views: maxViews.toString(),
+        min_citations: minCitations.toString(),
+        max_citations: maxCitations.toString(),
+        years: filterYears.toString()
       }
     }).pipe(
       map(response => {
@@ -146,9 +153,6 @@ getPapersViaContent(contentQuery: string, page: number = 1, pageSize: number = 1
     }))
   );
 }
-
-
-
   
 
 }
