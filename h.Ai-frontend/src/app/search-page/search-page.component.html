@@ -51,14 +51,14 @@
 
         <!-- Filters Section -->
        
-        <!-- Filter: Tags/Research Area -->
+        <!-- Filter: Citations -->
         <div class="filters">
-          <h4 (click)="toggleFilter('researchAreas')">
-            Research Areas <i class="fa fa-chevron-down"></i>
+          <h4 (click)="toggleFilter('citations')">
+            Citations <i class="fa fa-chevron-down"></i>
           </h4>
-          <ul *ngIf="filterState.researchAreas">
-            <li *ngFor="let area of researchAreas">
-              <input type="checkbox" [(ngModel)]="filters.selectedAreas[area]" (change)="applyFilters()" />
+          <ul *ngIf="filterState.citations">
+            <li *ngFor="let area of citationsOptions">
+              <input type="checkbox" [(ngModel)]="filters.selectedCitations[area]" (change)="applyFilters()" />
               {{ area }}
             </li>
           </ul>
@@ -83,7 +83,7 @@
             Views <i class="fa fa-chevron-down"></i>
           </h4>
           <ul *ngIf="filterState.views">
-            <li *ngFor="let view of viewOptions">
+            <li *ngFor="let view of viewsOptions">
               <input type="checkbox" [(ngModel)]="filters.selectedViews[view]" (change)="applyFilters()" />
               {{ view }}
             </li>

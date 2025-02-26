@@ -46,18 +46,18 @@ export class SearchPageComponent implements OnInit {
 
   // Filters
   filters: {
-    selectedAreas: { [key: string]: boolean },
+    selectedCitations: { [key: string]: boolean },
     selectedYears: { [key: string]: boolean },
     selectedViews: { [key: string]: boolean }
   } = {
-    selectedAreas: {},
+    selectedCitations: {},
     selectedYears: {},
     selectedViews: {}
   };
 
    // filterState object to control visibility of filters
    filterState = {
-    researchAreas: false,
+    citations: false,
     publishYear: false,
     views: false
   };
@@ -71,19 +71,40 @@ export class SearchPageComponent implements OnInit {
   
 
   applyFilters(): void {
-    // Filter the papers based on the selected filters
-    this.filteredPapers = this.papers.filter(paper => {
-      const areaMatches = Object.keys(this.filters.selectedAreas).length === 0 || 
-                           Object.keys(this.filters.selectedAreas).some(area => this.filters.selectedAreas[area] && paper.tags.includes(area));
-  
-      const yearMatches = Object.keys(this.filters.selectedYears).length === 0 || 
-                           Object.keys(this.filters.selectedYears).some(year => this.filters.selectedYears[year] && new Date(paper.date).getFullYear().toString() === year);
-  
-      const viewMatches = Object.keys(this.filters.selectedViews).length === 0 || 
-                           Object.keys(this.filters.selectedViews).some(view => this.filters.selectedViews[view] && paper.views >= parseInt(view));
-  
-      return areaMatches && yearMatches && viewMatches;
-    });
+    let params: any = {};
+
+    // Filter the papers based on the selected years
+    const selectedYears = Object.keys(this.filters.selectedYears).filter(year => this.filters.selectedYears[year]);
+    if (selectedYears.length > 0) {
+      params.year = selectedYears;
+    }
+
+
+    // Function to get the range of views and citations
+    const range = (option: string) => {
+      if (option === 'Under 10') return { min: 0, max: 9 };
+      if (option === '10 to 100') return { min: 10, max: 100 };
+      if (option === '100 to 500') return { min: 100, max: 500 };
+      if (option === '500 to 1000') return { min: 500, max: 1000 };
+      if (option === 'Over 1000') return { min: 1001, max: Infinity };
+      return null;
+    };
+    // Filter the papers based on the selected views
+    const selectedViews = this.viewsOptions.filter(view => this.filters.selectedViews[view]);
+    if (selectedViews.length > 0) {
+      const ranges = selectedViews.map(range);
+      params.min_views = Math.min(...ranges.map(r => r ? r.min : Infinity));
+      params.max_views = Math.max(...ranges.map(r => r ? r.max : -Infinity));
+    }
+    // Filter the papers based on the selected citations
+    const selectedCitations = Object.keys(this.filters.selectedCitations).filter(citation => this.filters.selectedCitations[citation]);
+    if (selectedCitations.length > 0) {
+      const ranges = selectedCitations.map(range);
+      params.min_citations = Math.min(...ranges.map(r => r ? r.min : Infinity));
+      params.max_citations = Math.max(...ranges.map(r => r ? r.max : -Infinity));
+    }
+    
+    console.log('Filter params:', params);
   
     // Sort the filtered results
     this.sortResults();
@@ -93,26 +114,30 @@ export class SearchPageComponent implements OnInit {
     this.totalPages = Math.ceil(this.filteredPapers.length / this.papersPerPage);
     
   }
+
+
   
   
   resetFilters(): void {
-    this.filters.selectedAreas = {};
+    this.filters.selectedCitations = {};
     this.filters.selectedYears = {};
     this.filters.selectedViews = {};
     this.applyFilters(); // Reapply filter to update the results
   }
 
-  researchAreas = [
-    'Machine Learning', '(Probabilistic) Deep Learning', 'Statistical Relational AI', 
-    'Computer Vision', 'Natural Language Processing', 'Robotics', 'Models of Higher Cognition',
-    'Psychology of Information Processing', 'Database Systems', 'Software Engineering', 
-    'Distributed Systems', 'Hardware', 'Bioinformatics', 'Semantic Web', 'Sustainability',
-    'Medicine', 'Finance', 'Multimodal AI'
-  ];
+  // researchAreas = [
+  //   'Machine Learning', '(Probabilistic) Deep Learning', 'Statistical Relational AI', 
+  //   'Computer Vision', 'Natural Language Processing', 'Robotics', 'Models of Higher Cognition',
+  //   'Psychology of Information Processing', 'Database Systems', 'Software Engineering', 
+  //   'Distributed Systems', 'Hardware', 'Bioinformatics', 'Semantic Web', 'Sustainability',
+  //   'Medicine', 'Finance', 'Multimodal AI'
+  // ];
 
-  publishYears = ['2020', '2021', '2022', '2023', '2024'];
+  publishYears = ['2020', '2021', '2022', '2023', '2024', '2025'];
   
-  viewOptions = ['0', '100', '500', '1000', '5000']; 
+  viewsOptions = ['Under 10', '10 to 100', '100 to 500', '500 to 1000', 'Over 1000'];
+  
+  citationsOptions = ['Under 10', '10 to 100', '100 to 500', '500 to 1000', 'Over 1000']; 
   
 
 
@@ -299,6 +324,7 @@ searchByContent(): void {
     this.searchOption = 'author';
     this.currentPage = 1;
     this.sortOption = 'Date (new to old)';
+    this.resetFilters();
     this.fetchPapers(); 
   }
 
