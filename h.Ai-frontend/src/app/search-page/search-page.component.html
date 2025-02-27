@@ -25,8 +25,7 @@
 </div>            
 
 <section>
-
-  <nav>
+  <nav >
     <ul>
         <li> <section id="search-bar">
             <i class="fa-solid fa-magnifying-glass"></i>
@@ -50,15 +49,31 @@
 
 
         <!-- Filters Section -->
-        <div class="filters">
+        <!-- <div class="filters">
           <h4>Publish Year</h4>
           <select [(ngModel)]="filterYears" (change)="onFilterChange()" multiple>
             <option value="">Publish Year</option>
             <option *ngFor="let year of ['2020', '2021', '2022', '2023', '2024', '2025']" [value]="year">{{ year }}</option>
           </select>
-        </div>
+        </div> -->
 
         <div class="filters">
+          <label class="example-listbox-label">
+            Years
+          </label>
+          <ul cdkListbox 
+          cdkListboxMultiple
+          (cdkListboxValueChange)="onFilterChange()"
+          [(ngModel)]="filterYears"
+          class="year-listbox">
+            @for (yearElement of yearList; track yearElement) {
+              <li [cdkOption]="yearElement" class="example-option">{{yearElement}}</li>
+            }
+          </ul>
+        </div>
+        
+
+        <!-- <div class="filters">
           <h4>Views</h4>
           <mat-slider min="200" max="500">
             <input value="300" matSliderStartThumb>
@@ -80,7 +95,7 @@
             [displayWith]="formatLabel">
           </mat-slider>
           <span>Min: {{ minCitations }} - Max: {{ maxCitations }}</span>
-        </div>
+        </div> -->
         
 
 

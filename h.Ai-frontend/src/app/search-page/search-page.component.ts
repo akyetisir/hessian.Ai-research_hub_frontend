@@ -4,6 +4,8 @@ import { RouterOutlet, RouterModule, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import {MatSliderModule} from '@angular/material/slider';
+import { CdkListbox, CdkOption,  ListboxValueChangeEvent } from '@angular/cdk/listbox';
+import { Observable, fromEvent, of } from 'rxjs';
 
 import { FooterComponent } from "../shared/footer/footer.component";
 import { PaperService } from '../services/paper/paper.service';
@@ -18,7 +20,7 @@ import { HttpClientModule } from '@angular/common/http'; // Import HttpClientMod
 @Component({
   selector: 'app-search-page',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterModule, MatSliderModule, 
+  imports: [RouterOutlet, RouterLink, RouterModule, MatSliderModule, CdkListbox, CdkOption,
     HeaderComponent, FormsModule, NgIf, NgFor, CommonModule, FooterComponent, PaperDescriptionComponent,HttpClientModule],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.less'
@@ -51,38 +53,10 @@ export class SearchPageComponent implements OnInit {
   minCitations: number = 0;
   maxCitations: number = 100000;
 
-  // Filters
+  sliderInput = 0
+  endInputElement = 100000
 
-  applyFilters() {
-    this.filteredPapers = this.papers.filter(paper => 
-      paper.views >= this.minViews && paper.views <= this.maxViews &&
-      paper.citations >= this.minCitations && paper.citations <= this.maxCitations
-    );
-    this.fetchPapers();
-  }
-
-  formatLabel(value: number): string {
-    return value.toLocaleString();
-  }
-
-  onFilterChange(): void {
-    this.applyFilters();
-  }  
-  
-  
-  resetFilters(): void {
-      this.filterYears = [];
-      this.minViews = 0;
-      this.maxViews = Infinity;
-      this.minCitations = 0;
-      this.maxCitations = Infinity;
-      this.applyFilters();
-  }
-
-
-  
-  
-
+  yearList = ['2020', '2021', '2022', '2023', '2024', '2025']
 
   constructor (private paperService: PaperService, private authorService: AuthorService) {}
   ngOnInit(): void {
@@ -94,7 +68,7 @@ export class SearchPageComponent implements OnInit {
 
   // Function to fetch papers from the backend
   fetchPapers(): void {
-    this.paperService.getAllPapers(this.currentPage, this.papersPerPage, '', true, this.filterYears.map(Number), this.minViews, this.maxViews, this.minCitations, this.maxCitations).subscribe({
+    this.paperService.getAllPapers(this.currentPage, this.papersPerPage, '', true, this.filterYears, this.minViews, this.maxViews, this.minCitations, this.maxCitations).subscribe({
       next: (data: { papers: Paper[], totalPapers: number }) => { // Receive totalPapers
         if (data.papers && data.papers.length > 0) {
           this.papers = data.papers; // Store the fetched papers in the papers array
@@ -109,6 +83,26 @@ export class SearchPageComponent implements OnInit {
         console.error('Error fetching papers:', err);
       }
     });
+  }
+
+
+  formatLabel(value: number): string {
+    return value.toLocaleString();
+  }
+
+  onFilterChange(): void {
+    console.log(this.filterYears)
+    this.fetchPapers();
+  }  
+  
+  
+  resetFilters(): void {
+      this.filterYears = [];
+      this.minViews = 0;
+      this.maxViews = Infinity;
+      this.minCitations = 0;
+      this.maxCitations = Infinity;
+      // this.applyFilters();
   }
 
 
@@ -130,11 +124,12 @@ export class SearchPageComponent implements OnInit {
 
 
   // Get the papers to display on the current page
+  // TODO: only calc once or on change
   get displayedPapers(): Paper[] {
     const startIndex = (this.currentPage - 1) * this.papersPerPage;
     const endIndex = startIndex + this.papersPerPage;
     const papersToDisplay = this.filteredPapers.length > 0 ? this.filteredPapers : this.papers;
-    console.log('Displayed papers:', papersToDisplay); // Log displayed papers
+    // console.log('Displayed papers:', papersToDisplay); // Log displayed papers
     return this.filteredPapers.length > 0 ? this.filteredPapers : this.papers;
   }
   get searchedPapers() {
@@ -257,6 +252,7 @@ searchByContent(): void {
 
   // This function listens for the Enter event and triggers the searchByAuthor function
   onKeyPress(event: KeyboardEvent): void {
+    console.log("enter")
     if (event.key === 'Enter') {
       this.perfomSearch();
     }
@@ -271,4 +267,6 @@ searchByContent(): void {
     this.fetchPapers(); 
   }
 
+
 }
+

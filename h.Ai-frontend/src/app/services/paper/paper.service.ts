@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { map } from 'rxjs/operators';
 import { Paper } from '../../shared/models/paper.model';  
+
 
 
 @Injectable({
@@ -15,7 +16,7 @@ export class PaperService {
   private baseUrl = 'http://localhost:8000'; // URL of Backend
   private pdfBaseUrl = 'http://127.0.0.1:8000'; // URL of PDFs
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
   }
 
   // Function to convert backend data into Paper object
@@ -43,27 +44,28 @@ export class PaperService {
 
   // Get all papers
   getAllPapers(page: number = 1, pageSize: number = 15, sort:string = "", descending :boolean = true, 
-    filterYears: number[] = [], minViews: number = 0, maxViews: number = Infinity, minCitations: number = 0, maxCitations: number = Infinity)
+    filterYears: string[] = [], minViews: number = 0, maxViews: number = Infinity, minCitations: number = 0, maxCitations: number = Infinity)
     : Observable<{ papers: Paper[], totalPapers: number }> {
-    return this.http.get<{ papers: any[], total_count: number }>(`${this.baseUrl}/papers/all`, {
-      params: {
-        page: page.toString(),
-        page_size: pageSize.toString(),
-        sort: sort.toString(),
-        descending: descending.toString(),
-        min_views: minViews.toString(),
-        max_views: maxViews.toString(),
-        min_citations: minCitations.toString(),
-        max_citations: maxCitations.toString(),
-        years: filterYears.toString()
-      }
-    }).pipe(
-      map(response => {
-        return {
-          papers: response.papers.map((input)=>this.mapToPaper(input)),
-          totalPapers: response.total_count
-        }
-      })
+      let params = new HttpParams()
+        .appendAll({
+          page: page.toString(),
+          page_size: pageSize.toString(),
+          sort: sort.toString(),
+          descending: descending.toString(),
+          min_views: minViews.toString(),
+          max_views: maxViews.toString(),
+          min_citations: minCitations.toString(),
+          max_citations: maxCitations.toString(),
+          year: filterYears
+        })
+
+      return this.http.get<{ papers: any[], total_count: number }>(`${this.baseUrl}/papers/all`, {params: params}).pipe(
+        map(response => {
+          return {
+            papers: response.papers.map((input)=>this.mapToPaper(input)),
+            totalPapers: response.total_count
+          }
+        })
     );
   }
 
