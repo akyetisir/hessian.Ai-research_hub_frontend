@@ -3,7 +3,6 @@ import { Routes } from '@angular/router';
 import { HomepageComponent } from './homepage/homepage.component';
 import { SearchPageComponent } from './search-page/search-page.component';
 import { PaperDisplayComponent } from './papers/paper-display/paper-display.component';
-import { PaperDescriptionComponent } from './papers/paper-description/paper-description.component';
 import { ResearchersComponent } from './researchers/researchers.component';
 
 // Routes declaration
