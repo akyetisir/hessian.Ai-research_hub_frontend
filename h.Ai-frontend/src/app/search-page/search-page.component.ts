@@ -68,6 +68,10 @@ export class SearchPageComponent implements OnInit {
 
   // Function to fetch papers from the backend
   fetchPapers(): void {
+    console.log('Fetching papers...');
+    const maxViewsSafe = this.maxViews === Infinity ? 100000 : this.maxViews;
+    const maxCitationsSafe = this.maxCitations === Infinity ? 100000 : this.maxCitations;
+
     this.paperService.getAllPapers(this.currentPage, this.papersPerPage, '', true, this.filterYears, this.minViews, this.maxViews, this.minCitations, this.maxCitations).subscribe({
       next: (data: { papers: Paper[], totalPapers: number }) => { // Receive totalPapers
         if (data.papers && data.papers.length > 0) {
@@ -99,9 +103,9 @@ export class SearchPageComponent implements OnInit {
   resetFilters(): void {
       this.filterYears = [];
       this.minViews = 0;
-      this.maxViews = Infinity;
+      this.maxViews = 100000;
       this.minCitations = 0;
-      this.maxCitations = Infinity;
+      this.maxCitations = 100000;
       // this.applyFilters();
   }
 
@@ -168,7 +172,7 @@ export class SearchPageComponent implements OnInit {
   }
 
   nextPage() {
-    if (this.currentPage > 0) {
+    if (this.currentPage < this.totalPages) {
       this.currentPage++;
       this.fetchPapers();
       this.scrollToTop();
@@ -263,6 +267,10 @@ searchByContent(): void {
     this.searchOption = 'author';
     this.currentPage = 1;
     this.sortOption = 'Date (new to old)';
+    this.maxViews = 1000000;
+    this.maxCitations = 1000000;
+    this.minViews = 0;  
+    this.minCitations = 0;
     this.resetFilters();
     this.fetchPapers(); 
   }
