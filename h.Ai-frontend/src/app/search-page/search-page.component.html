@@ -47,57 +47,50 @@
         
         <br>
 
-
-        <!-- Filters Section -->
-        <!-- <div class="filters">
-          <h4>Publish Year</h4>
-          <select [(ngModel)]="filterYears" (change)="onFilterChange()" multiple>
-            <option value="">Publish Year</option>
-            <option *ngFor="let year of ['2020', '2021', '2022', '2023', '2024', '2025']" [value]="year">{{ year }}</option>
-          </select>
-        </div> -->
-
         <div class="filters">
-          <label class="example-listbox-label">
+          <label class="filter-label">
             <strong>Years</strong>
           </label>
           <ul cdkListbox 
           cdkListboxMultiple
           (cdkListboxValueChange)="onFilterChange()"
           [(ngModel)]="filterYears"
-          class="year-listbox">
+          class="date-listbox">
             @for (yearElement of yearList; track yearElement) {
-              <li [cdkOption]="yearElement" class="example-option">{{yearElement}}</li>
+              <li [cdkOption]="yearElement" class="date-option">{{yearElement}}</li>
             }
           </ul>
         </div>
         
 
-        <!-- <div class="filters">
-          <h4>Views</h4>
-          <mat-slider min="200" max="500">
-            <input value="300" matSliderStartThumb>
-            <input value="400" matSliderEndThumb>
+        <div class="filters">
+          <label class="filter-label">
+            <strong>Views</strong>
+          </label>
+          <mat-slider 
+              [min]="MINVIEWS" 
+              [max]="MAXVIEWS">
+            <input [(ngModel)]="sliderViewsMin" matSliderStartThumb (change)="onFilterChange()">
+            <input [(ngModel)]="sliderViewsMax" matSliderEndThumb (dragEnd)="onFilterChange()">
           </mat-slider>
-          <span>Min: {{ minViews }} - Max: {{ maxViews }}</span>
+          <span>Min: {{ sliderViewsMin }} </span>
+          <span class="slider-max">Max: {{ sliderViewsMax }}</span>
         </div>
         
-        <div class="filters">
-          <h4>Citations</h4>
-          <mat-slider
-            min="0"
-            max="10000"
-            step="1"
-            [(ngModel)]="minCitations"
-            (change)="applyFilters()"
-            thumbLabel
-            tickInterval="500"
-            [displayWith]="formatLabel">
-          </mat-slider>
-          <span>Min: {{ minCitations }} - Max: {{ maxCitations }}</span>
-        </div> -->
-        
 
+        <div class="filters">
+          <label class="filter-label">
+            <strong>Citations</strong>
+          </label>
+          <mat-slider 
+              [min]="MINCITATIONS" 
+              [max]="MAXCITATIONS">
+            <input [(ngModel)]="sliderCitationsMin" matSliderStartThumb (change)="onFilterChange()">
+            <input [(ngModel)]="sliderCitationsMax" matSliderEndThumb (dragEnd)="onFilterChange()">
+          </mat-slider>
+          <span>Min: {{ sliderCitationsMin }} </span>
+          <span class="slider-max">Max: {{ sliderCitationsMax }}</span>
+        </div>
 
     </ul>
   </nav>

@@ -1,25 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from "../shared/header/header.component";
-import { RouterOutlet, RouterModule, RouterLink } from '@angular/router';
+import { RouterModule, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
-import {MatSliderModule} from '@angular/material/slider';
-import { CdkListbox, CdkOption,  ListboxValueChangeEvent } from '@angular/cdk/listbox';
+import { MatSliderModule } from '@angular/material/slider';
+import {MatInputModule} from '@angular/material/input';
+import { CdkListbox, CdkOption } from '@angular/cdk/listbox';
 
 import { FooterComponent } from "../shared/footer/footer.component";
 import { PaperService } from '../services/paper/paper.service';
 import { Paper } from '../shared/models/paper.model';
-import { PaperDescriptionComponent } from '../papers/paper-description/paper-description.component';
 import { Author } from '../shared/models/author.model';
 import { AuthorService } from '../services/author/author.service';
-
 
 
 @Component({
   selector: 'app-search-page',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterModule, MatSliderModule, CdkListbox, CdkOption,
-    HeaderComponent, FormsModule, NgIf, NgFor, CommonModule, FooterComponent, PaperDescriptionComponent],
+  imports: [RouterLink, RouterModule, MatSliderModule, MatInputModule, CdkListbox, CdkOption,
+    HeaderComponent, FormsModule, NgIf, NgFor, CommonModule, FooterComponent],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.less'
 })
@@ -35,6 +34,10 @@ export class SearchPageComponent implements OnInit {
     'Date (new to old)', 'Date (old to new)',
     'Views (high to low)', 'Views (low to high)',
     'Relevance'];
+  MINVIEWS: number = 0;
+  MAXVIEWS: number = 0;
+  MINCITATIONS: number = 0;
+  MAXCITATIONS: number = 0;
   currentPage = 1;
   totalPages: number = 1; // Initially set to 1
   papersPerPage: number = 15; // Number of papers per page
@@ -43,13 +46,16 @@ export class SearchPageComponent implements OnInit {
   searchOption: string = 'author'; // Default search by Author
   authorQuery: any;
 
+  // slider values
+  sliderViewsMin: number = this.MINVIEWS
+  sliderViewsMax: number = this.MAXVIEWS
+  sliderCitationsMin: number = this.MINCITATIONS
+  sliderCitationsMax: number = this.MAXCITATIONS
+
   teamMembers: Author[] = [];
 
   filterYears: string[] = [];
-  minViews: number = 0;
-  maxViews: number = 100000;
-  minCitations: number = 0;
-  maxCitations: number = 100000;
+  
 
   sliderInput = 0
   endInputElement = 100000
@@ -67,16 +73,19 @@ export class SearchPageComponent implements OnInit {
   // Function to fetch papers from the backend
   fetchPapers(): void {
     console.log('Fetching papers...');
-    const maxViewsSafe = this.maxViews === Infinity ? 100000 : this.maxViews;
-    const maxCitationsSafe = this.maxCitations === Infinity ? 100000 : this.maxCitations;
 
-    this.paperService.getAllPapers(this.currentPage, this.papersPerPage, '', true, this.filterYears, this.minViews, this.maxViews, this.minCitations, this.maxCitations).subscribe({
+    this.paperService.getAllPapers(this.currentPage, this.papersPerPage, '', true, this.filterYears, this.sliderViewsMin, 
+      this.sliderViewsMax, this.sliderCitationsMin, this.sliderCitationsMax).subscribe({
       next: (data: { papers: Paper[], totalPapers: number }) => { // Receive totalPapers
         if (data.papers && data.papers.length > 0) {
           this.papers = data.papers; // Store the fetched papers in the papers array
           this.totalPages = Math.ceil(data.totalPapers / this.papersPerPage); // Calculate total pages based on totalPapers
           this.sortResults();
           console.log('Papers fetched successfully:', this.papers);
+          if (this.MAXVIEWS == 0){
+            this.calculateMaxSliderValues()
+            this.sliderViewsMax = this.MAXVIEWS
+          }
         } else {
           console.log('No papers found.');
         }
@@ -87,6 +96,14 @@ export class SearchPageComponent implements OnInit {
     });
   }
 
+  calculateMaxSliderValues(){
+    this.MAXVIEWS = this.papers.reduce(function(prev, current){
+      return (prev.views > current.views) ? prev : current
+    }).views
+    this.MAXCITATIONS = this.papers.reduce(function(prev, current){
+      return (prev.citations > current.citations) ? prev : current
+    }).views
+  }
 
   formatLabel(value: number): string {
     return value.toLocaleString();
@@ -100,11 +117,10 @@ export class SearchPageComponent implements OnInit {
   
   resetFilters(): void {
       this.filterYears = [];
-      this.minViews = 0;
-      this.maxViews = 100000;
-      this.minCitations = 0;
-      this.maxCitations = 100000;
-      // this.applyFilters();
+      this.sliderViewsMax = 0;
+      this.sliderCitationsMax = 0;
+      this.sliderViewsMin = 0;  
+      this.sliderCitationsMin = 0;
   }
 
 
@@ -265,10 +281,6 @@ searchByContent(): void {
     this.searchOption = 'author';
     this.currentPage = 1;
     this.sortOption = 'Date (new to old)';
-    this.maxViews = 1000000;
-    this.maxCitations = 1000000;
-    this.minViews = 0;  
-    this.minCitations = 0;
     this.resetFilters();
     this.fetchPapers(); 
   }
