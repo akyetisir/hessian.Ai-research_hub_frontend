@@ -6,13 +6,11 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Author } from '../shared/models/author.model';
 import { AuthorService } from '../services/author/author.service';
-import { HttpClientModule } from '@angular/common/http'; // Import HttpClientModule
-import { SearchPageComponent } from '../search-page/search-page.component';
 
 @Component({
   selector: 'app-researchers',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, RouterModule, FormsModule, CommonModule, NgFor, NgIf, HttpClientModule],
+  imports: [HeaderComponent, FooterComponent, RouterModule, FormsModule, CommonModule, NgFor, NgIf],
   templateUrl: './researchers.component.html',
   styleUrl: './researchers.component.less'
 })
