@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import {MatSliderModule} from '@angular/material/slider';
 import { CdkListbox, CdkOption,  ListboxValueChangeEvent } from '@angular/cdk/listbox';
-import { Observable, fromEvent, of } from 'rxjs';
 
 import { FooterComponent } from "../shared/footer/footer.component";
 import { PaperService } from '../services/paper/paper.service';
@@ -13,7 +12,6 @@ import { Paper } from '../shared/models/paper.model';
 import { PaperDescriptionComponent } from '../papers/paper-description/paper-description.component';
 import { Author } from '../shared/models/author.model';
 import { AuthorService } from '../services/author/author.service';
-import { HttpClientModule } from '@angular/common/http'; // Import HttpClientModule
 
 
 
@@ -21,7 +19,7 @@ import { HttpClientModule } from '@angular/common/http'; // Import HttpClientMod
   selector: 'app-search-page',
   standalone: true,
   imports: [RouterOutlet, RouterLink, RouterModule, MatSliderModule, CdkListbox, CdkOption,
-    HeaderComponent, FormsModule, NgIf, NgFor, CommonModule, FooterComponent, PaperDescriptionComponent,HttpClientModule],
+    HeaderComponent, FormsModule, NgIf, NgFor, CommonModule, FooterComponent, PaperDescriptionComponent],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.less'
 })
