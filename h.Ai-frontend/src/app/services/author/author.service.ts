@@ -25,8 +25,6 @@ export class AuthorService {
 
   // Function to convert backend data into Author object
   private mapToAuthor(data: any): Author {
-     // fs can't store ':' and replaces it with '_' so we need to reflect that here
-     let image_path =  data.path_image? data.path_image.replaceAll(':', '_') : data.path_image
      
      return {
         authorId: data.objectId,
@@ -34,7 +32,7 @@ export class AuthorService {
         h_index: data.h_index,
         citations: data.citations,
         highly_influential_citations: data.highly_influential_citations,
-        image_path: `${this.API_BASE_URL}/${image_path || ''}`
+        image_path: data.image_path
       };
      } 
 
