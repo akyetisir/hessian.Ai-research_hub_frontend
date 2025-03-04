@@ -34,7 +34,7 @@ export class TrendComponent implements OnInit {
   }
 
   fetchByRank(): void {
-    this.paperService.getAllPapers(1,3,"relevance", true).subscribe({
+    this.paperService.getAllPapers(1,3,"relevance", true, [], 0, 100000, 0, 100000).subscribe({
       next: (data: { papers: Paper[], totalPapers: number }) => { // Receive totalPapers
         if (data.papers && data.papers.length > 0) {
           this.papersByRank = data.papers; // Store the fetched papers in the papers array
@@ -52,7 +52,7 @@ export class TrendComponent implements OnInit {
 
   // TODO: only use papers from the past few weeks 
   fetchByViews(): void {
-    this.paperService.getAllPapers(1,3,"views", true).subscribe({
+    this.paperService.getAllPapers(1,3,"views", true, [], 0, 100000, 0, 100000).subscribe({
       next: (data: { papers: Paper[], totalPapers: number }) => { // Receive totalPapers
         if (data.papers && data.papers.length > 0) {
           this.papersByViews = data.papers; // Store the fetched papers in the papers array
@@ -69,7 +69,7 @@ export class TrendComponent implements OnInit {
   }
 
   fetchByDate(): void {
-    this.paperService.getAllPapers(1,3,"date", true).subscribe({
+    this.paperService.getAllPapers(1,3,"date", true, [], 0, 100000, 0, 100000).subscribe({
       next: (data: { papers: Paper[], totalPapers: number }) => { // Receive totalPapers
         if (data.papers && data.papers.length > 0) {
           this.papersByDate = data.papers; // Store the fetched papers in the papers array
