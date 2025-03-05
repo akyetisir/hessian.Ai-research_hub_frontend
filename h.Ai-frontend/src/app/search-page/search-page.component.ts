@@ -69,6 +69,7 @@ export class SearchPageComponent implements OnInit {
     this.fetchPapers();
     console.log(this.papers);
     this.fetchTeamMembers();
+    this.calculateMaxSliderValues();
     console.log(this.teamMembers);
   }
 
@@ -99,12 +100,14 @@ export class SearchPageComponent implements OnInit {
   }
 
   calculateMaxSliderValues(){
+    console.log("Paper data:", this.papers)
     this.MAXVIEWS = this.papers.reduce(function(prev, current){
       return (prev.views > current.views) ? prev : current
     }).views
     this.MAXCITATIONS = this.papers.reduce(function(prev, current){
       return (prev.citations > current.citations) ? prev : current
-    }).views
+    }).citations
+    console.log(this.MAXVIEWS, this.MAXCITATIONS);
   }
 
   formatLabel(value: number): string {
@@ -112,7 +115,7 @@ export class SearchPageComponent implements OnInit {
   }
 
   onFilterChange(): void {
-    console.log(this.filterYears)
+    console.log(this.filterYears);
     this.fetchPapers();
   }  
   
