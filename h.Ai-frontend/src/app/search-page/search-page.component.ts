@@ -34,6 +34,8 @@ export class SearchPageComponent implements OnInit {
     'Date (new to old)', 'Date (old to new)',
     'Views (high to low)', 'Views (low to high)',
     'Relevance'];
+  sort: string = 'date';
+  descending: boolean = true;
   MINVIEWS: number = 0;
   MAXVIEWS: number = 0;
   MINCITATIONS: number = 0;
@@ -74,13 +76,13 @@ export class SearchPageComponent implements OnInit {
   fetchPapers(): void {
     console.log('Fetching papers...');
 
-    this.paperService.getAllPapers(this.currentPage, this.papersPerPage, '', true, this.filterYears, this.sliderViewsMin, 
+    this.paperService.getAllPapers(this.currentPage, this.papersPerPage, this.sort, this.descending, this.filterYears, this.sliderViewsMin, 
       this.sliderViewsMax, this.sliderCitationsMin, this.sliderCitationsMax).subscribe({
       next: (data: { papers: Paper[], totalPapers: number }) => { // Receive totalPapers
         if (data.papers && data.papers.length > 0) {
           this.papers = data.papers; // Store the fetched papers in the papers array
           this.totalPages = Math.ceil(data.totalPapers / this.papersPerPage); // Calculate total pages based on totalPapers
-          this.sortResults();
+          // this.sortResults();
           console.log('Papers fetched successfully:', this.papers);
           if (this.MAXVIEWS == 0){
             this.calculateMaxSliderValues()
@@ -127,16 +129,27 @@ export class SearchPageComponent implements OnInit {
   // Function to sort all results
   sortResults(): void {
     if (this.sortOption === 'Date (new to old)') {
-      this.filteredPapers.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      // this.filteredPapers.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      this.sort = 'date';
+      this.descending = true;
     } else if (this.sortOption === 'Date (old to new)') {
-      this.filteredPapers.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+      // this.filteredPapers.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+      this.sort = 'date';
+      this.descending = false;
     } else if (this.sortOption === 'Views (high to low)') {
-      this.filteredPapers.sort((a, b) => b.views - a.views);
+      // this.filteredPapers.sort((a, b) => b.views - a.views);
+      this.sort = 'views';
+      this.descending = true;
     } else if (this.sortOption === 'Views (low to high)') {
-      this.filteredPapers.sort((a, b) => a.views - b.views);
+      // this.filteredPapers.sort((a, b) => a.views - b.views);
+      this.sort = 'views';
+      this.descending = false;
     } else if (this.sortOption === 'Relevance') {
-      this.filteredPapers.sort((a, b) => b.relevance - a.relevance);
+      // this.filteredPapers.sort((a, b) => b.relevance - a.relevance);
+      this.sort = 'relevance';
+      this.descending = true;
     }
+    this.fetchPapers();
     console.log('Sorting by:', this.sortOption);
   }
 
@@ -281,6 +294,8 @@ searchByContent(): void {
     this.searchOption = 'author';
     this.currentPage = 1;
     this.sortOption = 'Date (new to old)';
+    this.sort = 'date';
+    this.descending = true;
     this.resetFilters();
     this.fetchPapers(); 
   }
