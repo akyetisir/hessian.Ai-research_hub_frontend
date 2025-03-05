@@ -129,26 +129,22 @@ export class SearchPageComponent implements OnInit {
   // Function to sort all results
   sortResults(): void {
     if (this.sortOption === 'Date (new to old)') {
-      // this.filteredPapers.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       this.sort = 'date';
       this.descending = true;
     } else if (this.sortOption === 'Date (old to new)') {
-      // this.filteredPapers.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
       this.sort = 'date';
       this.descending = false;
     } else if (this.sortOption === 'Views (high to low)') {
-      // this.filteredPapers.sort((a, b) => b.views - a.views);
       this.sort = 'views';
       this.descending = true;
     } else if (this.sortOption === 'Views (low to high)') {
-      // this.filteredPapers.sort((a, b) => a.views - b.views);
       this.sort = 'views';
       this.descending = false;
     } else if (this.sortOption === 'Relevance') {
-      // this.filteredPapers.sort((a, b) => b.relevance - a.relevance);
       this.sort = 'relevance';
       this.descending = true;
     }
+    this.currentPage = 1;
     this.fetchPapers();
     console.log('Sorting by:', this.sortOption);
   }
