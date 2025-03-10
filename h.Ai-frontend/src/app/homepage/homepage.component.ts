@@ -5,6 +5,7 @@ import { CategoryComponent } from '../shared/category/category.component';
 import { WaveLogoComponent } from '../shared/wave-logo/wave-logo.component';
 import { TrendComponent } from '../shared/trend/trend.component';
 import { FooterComponent } from "../shared/footer/footer.component";
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-homepage',

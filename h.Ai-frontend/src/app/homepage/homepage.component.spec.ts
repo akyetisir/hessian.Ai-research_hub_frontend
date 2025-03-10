@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HomepageComponent } from './homepage.component';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 
 describe('HomepageComponent', () => {
   let component: HomepageComponent;
@@ -8,7 +10,20 @@ describe('HomepageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HomepageComponent]
+      imports: [HttpClientTestingModule, HomepageComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            params: of({ id: 'test_homepage' }),
+            snapshot: {
+              paramMap: {
+                get: (key: string) => 'test_homepage'
+              }
+            }
+          }
+        }
+      ]
     })
     .compileComponents();
 

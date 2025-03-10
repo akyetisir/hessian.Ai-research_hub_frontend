@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { map } from 'rxjs/operators';
 import { Paper } from '../../shared/models/paper.model';  
+import { HttpClientModule } from '@angular/common/http';
 
 
 

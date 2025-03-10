@@ -4,7 +4,7 @@ import { CommonModule, NgIf  } from '@angular/common';
 import { Paper } from '../../shared/models/paper.model'; 
 import { Author } from '../../shared/models/author.model';
 import { AuthorService } from '../../services/author/author.service';
-
+import { HttpClientModule } from '@angular/common/http';
 
 
 @Component({

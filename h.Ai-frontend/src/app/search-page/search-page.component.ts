@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from "../shared/header/header.component";
-import { RouterModule, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterModule, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { MatSliderModule } from '@angular/material/slider';
-import {MatInputModule} from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { CdkListbox, CdkOption } from '@angular/cdk/listbox';
-
+import { HttpClientModule } from '@angular/common/http';
 import { FooterComponent } from "../shared/footer/footer.component";
 import { PaperService } from '../services/paper/paper.service';
 import { Paper } from '../shared/models/paper.model';
@@ -64,13 +64,19 @@ export class SearchPageComponent implements OnInit {
 
   yearList = ['2020', '2021', '2022', '2023', '2024', '2025']
 
-  constructor (private paperService: PaperService, private authorService: AuthorService) {}
+  constructor (private paperService: PaperService, private authorService: AuthorService, private route: ActivatedRoute) {}
   ngOnInit(): void {
-    this.fetchPapers();
-    console.log(this.papers);
-    this.fetchTeamMembers();
-    this.calculateMaxSliderValues();
-    console.log(this.teamMembers);
+    this.route.params.subscribe(params => {
+      const id = params['id'];
+      console.log('ID:', id);
+
+      this.fetchPapers();
+      console.log(this.papers);
+      this.fetchTeamMembers();
+      this.calculateMaxSliderValues();
+      console.log(this.teamMembers);
+    });
+
   }
 
   // Function to fetch papers from the backend
@@ -100,14 +106,18 @@ export class SearchPageComponent implements OnInit {
   }
 
   calculateMaxSliderValues(){
-    console.log("Paper data:", this.papers)
-    this.MAXVIEWS = this.papers.reduce(function(prev, current){
-      return (prev.views > current.views) ? prev : current
-    }).views
-    this.MAXCITATIONS = this.papers.reduce(function(prev, current){
-      return (prev.citations > current.citations) ? prev : current
-    }).citations
-    console.log(this.MAXVIEWS, this.MAXCITATIONS);
+    
+    for(let i=0; i<this.totalPages; i++){
+      console.log("Paper data:", this.papers);
+
+      this.MAXVIEWS = this.papers.reduce(function(prev, current){
+        return (prev.views > current.views) ? prev : current
+      }).views
+      this.MAXCITATIONS = this.papers.reduce(function(prev, current){
+        return (prev.citations > current.citations) ? prev : current
+      }).citations
+      console.log(this.MAXVIEWS, this.MAXCITATIONS);
+    }
   }
 
   formatLabel(value: number): string {

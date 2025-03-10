@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClientModule } from '@angular/common/http';
 import { PaperDescriptionComponent } from '../../papers/paper-description/paper-description.component';
 import { PaperService } from '../../services/paper/paper.service'
 import { Paper } from '../../shared/models/paper.model';
