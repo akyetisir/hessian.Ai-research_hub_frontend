@@ -106,18 +106,37 @@ export class SearchPageComponent implements OnInit {
   }
 
   calculateMaxSliderValues(){
+      if (!this.papers || this.papers.length === 0) {
+        console.warn("No papers available to calculate max values.");
+        this.MAXVIEWS = 0;
+        this.MAXCITATIONS = 0;
+        return;
+      }
     
-    for(let i=0; i<this.totalPages; i++){
       console.log("Paper data:", this.papers);
+    
+      this.MAXVIEWS = this.papers.reduce((prev, current) => 
+        prev.views > current.views ? prev : current
+      , { views: 0 }).views; // Providing initial value
+    
+      this.MAXCITATIONS = this.papers.reduce((prev, current) => 
+        prev.citations > current.citations ? prev : current
+      , { citations: 0 }).citations; // Providing initial value
+    
+      console.log("Max Views:", this.MAXVIEWS, "Max Citations:", this.MAXCITATIONS);
+    
+        
+    // for(let i=0; i<this.totalPages; i++){
+    //   console.log("Paper data:", this.papers);
 
-      this.MAXVIEWS = this.papers.reduce(function(prev, current){
-        return (prev.views > current.views) ? prev : current
-      }).views
-      this.MAXCITATIONS = this.papers.reduce(function(prev, current){
-        return (prev.citations > current.citations) ? prev : current
-      }).citations
-      console.log(this.MAXVIEWS, this.MAXCITATIONS);
-    }
+    //   this.MAXVIEWS = this.papers.reduce(function(prev, current){
+    //     return (prev.views > current.views) ? prev : current
+    //   }).views
+    //   this.MAXCITATIONS = this.papers.reduce(function(prev, current){
+    //     return (prev.citations > current.citations) ? prev : current
+    //   }).citations
+    //   console.log(this.MAXVIEWS, this.MAXCITATIONS);
+    // }
   }
 
   formatLabel(value: number): string {
@@ -227,8 +246,8 @@ export class SearchPageComponent implements OnInit {
 // Function to handle search by author
 searchByAuthor(): void {
   this.currentPage = 1;
-  if (this.searchOption === 'author') {
-    this.paperService.getPapersViaAuthor(this.searchQuery, this.currentPage, this.papersPerPage).subscribe({
+  if (this.searchOption === 'author' && this.searchQuery.trim()) {
+    this.paperService.getPapersViaAuthor(this.searchQuery, this.currentPage, this.papersPerPage, this.sort, this.descending).subscribe({
       next: (response) => {
         this.papers = response.papers;
         this.totalPages = Math.ceil(response.totalPapers / this.papersPerPage);
@@ -245,24 +264,28 @@ searchByAuthor(): void {
 // Function to handle search by title
 searchByTitle(): void {
   this.currentPage = 1;
-  if (this.searchOption === 'title') {
-    this.paperService.getPapersViaTitle(this.searchQuery, this.currentPage, this.papersPerPage).subscribe({
-      next: (response) => {
-        this.papers = response.papers;
-        this.totalPages = Math.ceil(response.totalPapers / this.papersPerPage);
-      },
-      error: (err) => {
-        console.error('Error fetching papers by title:', err);
-        this.papers = [];
-        alert('No papers found for the given title.');
+  if (this.searchOption === 'title' && this.searchQuery.trim()) {
+    if (this.paperService.getPapersViaTitle) {
+      this.paperService.getPapersViaTitle(this.searchQuery, this.currentPage, this.papersPerPage, this.sort, this.descending).subscribe({
+        next: (response) => {
+          this.papers = response.papers;
+          this.totalPages = Math.ceil(response.totalPapers / this.papersPerPage);
+          console.log('Papers via title:', this.papers);
+        },
+        error: (err) => {
+          console.error('Error fetching papers by title:', err);
+          this.papers = [];
+          alert('No papers found for the given title.');
+        }
+      });  
       }
-    });
+    
   }
 }
 
 searchByContent(): void {
   this.currentPage = 1;
-  if (this.searchOption === 'content') {
+  if (this.searchOption === 'content' && this.searchQuery.trim()) {
     this.paperService.getPapersViaContent(this.searchQuery, this.currentPage, this.papersPerPage).subscribe({
       next: (response) => {
         this.papers = response.papers;

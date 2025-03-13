@@ -16,4 +16,9 @@ import { HttpClientModule } from '@angular/common/http';
 })
 export class HomepageComponent {
 
+  constructor() { }
+  
+  ngOnInit() {
+  console.log('HomepageComponent initialized');
+  }
 }

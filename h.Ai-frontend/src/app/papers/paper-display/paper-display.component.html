@@ -22,7 +22,7 @@
     <ul>
 
       <li><section id="paper-photo"> 
-        <img [src]="paper?.image" onerror="this.src='https://hessian.ai/wp-content/themes/hessianai/apple-touch-icon.png';" />
+        <img *ngIf="sanitizedImageUrl" [src]="paper?.image" onerror="this.src='https://hessian.ai/wp-content/themes/hessianai/apple-touch-icon.png';" />
       </section></li>
         
       <li> <section id="paper-tag">
@@ -88,7 +88,7 @@
   </nav>
   
   <article>
-    <iframe
+    <iframe *ngIf="sanitizedPdfUrl"
   [src]="sanitizedPdfUrl"
   width="100%"
   height="600px"

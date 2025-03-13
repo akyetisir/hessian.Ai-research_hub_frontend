@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Author } from '../shared/models/author.model';
 import { AuthorService } from '../services/author/author.service';
+import { Params } from '@angular/router';
 
 @Component({
   selector: 'app-researchers',
@@ -30,17 +31,17 @@ export class ResearchersComponent {
   constructor(private authorService: AuthorService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    console.log('queryParams:', this.route.snapshot.queryParams);
+    const params: Params = this.route.snapshot.queryParams;
 
-    this.route.queryParams.subscribe(params => {
-      this.searchQuery = params['searchQuery'] || '';
-      const searchOption = params['searchOption'] || '';
+    
+    this.searchQuery = params['authorName'] || '';
   
-      if (searchOption === 'Author' && this.searchQuery) {
-        this.searchAuthorPapers(this.searchQuery);
-      } else {
-        this.fetchResearchers();
-      }
-    });
+    if (this.searchQuery) {
+      this.searchAuthorPapers(this.searchQuery);
+    } else {
+      this.fetchResearchers();
+    }
   }
 
   fetchResearchers() {
@@ -114,7 +115,13 @@ export class ResearchersComponent {
 
   searchAuthorPapers(authorName: string) {
     // Navigate to search page with author name as query parameter
-   
+   this.authorService.getAuthorByName(authorName).subscribe({
+      next: (data) => {
+        this.researchers = [data];
+        this.totalPages = 1;
+        this.currentPage = 1;
+      }
+    });
   }
 
     // Pagination controls

@@ -1,9 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ActivatedRoute, Router } from '@angular/router';
+import { of } from 'rxjs';
 import { ResearchersComponent } from './researchers.component';
 import { AuthorService } from '../services/author/author.service';
-import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
+
 
 describe('ResearchersComponent', () => {
   let component: ResearchersComponent;
@@ -12,25 +15,36 @@ describe('ResearchersComponent', () => {
 
   beforeEach(async () => {
     // Create a spy object for AuthorService
-    authorServiceSpy = jasmine.createSpyObj('AuthorService', ['getAuthors']);
+    authorServiceSpy = jasmine.createSpyObj('AuthorService', ['getAllAuthors', 'getAuthorByName']);
+    authorServiceSpy.getAllAuthors.and.returnValue(of({
+      page: 1,
+      page_size: 15,
+      total_count: 0,
+      authors: []
+    }));
+    authorServiceSpy.getAuthorByName.and.returnValue(of({
+      authorId: '1',
+      name: 'Test Author',
+      h_index: 10,
+      citations: 100,
+      highly_influential_citations: 5,
+      image_path: 'assets/icons/papers_icon.png'
+    }));
 
     await TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, ResearchersComponent],
-      declarations: [ResearchersComponent],
       providers: [
         { provide: AuthorService, useValue: authorServiceSpy },
         {
           provide: ActivatedRoute,
-          useValue: {
-            params: of({ id: 'test_researchers' }),
-            snapshot: {
-              paramMap: {
-                get: (key: string) => 'test_researchers'
+            useValue: {
+              snapshot: {
+                queryParams: { authorName: 'Test Author' }
               }
             }
-          }
         }
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       })
     .compileComponents();
 
@@ -42,4 +56,5 @@ describe('ResearchersComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });

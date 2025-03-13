@@ -38,7 +38,7 @@ export class PaperDisplayComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private paperService: PaperService,
-    private sanitizer: DomSanitizer,   // <-- Wichtig für das Umgehen von NG0904
+    private sanitizer: DomSanitizer,   // <-- Important for bypassing NG0904
     private authorService: AuthorService
   ) {}
 
@@ -53,15 +53,12 @@ export class PaperDisplayComponent implements OnInit {
             this.paper = data;
 
             if (data.pdfUrl) {
-              this.sanitizedPdfUrl = this.sanitizer
-                .bypassSecurityTrustResourceUrl(data.pdfUrl);
+              this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(data.pdfUrl);
             }
-
+            
             if (data.image) {
-              this.sanitizedImageUrl = this.sanitizer
-                .bypassSecurityTrustResourceUrl(data.image);
-              console.log('Sanitized Image URL:', this.sanitizedImageUrl);
-            }            
+              this.sanitizedImageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(data.image);
+            }           
 
           } else {
             console.error('Cannot find paper with this title.');

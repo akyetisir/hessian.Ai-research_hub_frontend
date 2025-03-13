@@ -35,4 +35,13 @@ describe('HomepageComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  // it('should initialize data correctly', () => {
+  //   // Assuming the component has an ngOnInit method that initializes some data
+  //   spyOn(component, 'ngOnInit').and.callThrough();
+  //   component.ngOnInit();
+  //   expect(component.ngOnInit).toHaveBeenCalled();
+  //   // Add more expectations based on what ngOnInit does
+  // });
+
 });
